@@ -15,4 +15,4 @@ script:
   make test;
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -t
+  - bash <(curl -s https://codecov.io/bash) -t 33bf0fdd-49b7-4a69-bfd9-3671d56af86f
