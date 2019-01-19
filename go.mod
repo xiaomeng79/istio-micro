@@ -21,7 +21,7 @@ require (
 	github.com/googollee/go-socket.io v0.0.0-20181214084611-0ad7206c347a
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
 	github.com/gorilla/websocket v1.4.0 // indirect
-	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
+	github.com/grpc-ecosystem/go-grpc-middleware v0.0.0-20190118093823-f849b5445de4
 	github.com/jinzhu/configor v0.0.0-20180614024415-4edaf76fe188
 	github.com/jinzhu/copier v0.0.0-20180308034124-7e38e58719c3
 	github.com/jmoiron/sqlx v1.2.0
