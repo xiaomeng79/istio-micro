@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-query-wai
+  namespace: istio-system
+  labels:
+    app: jaeger
+spec:
+  ports:
+  - port: 16686
+    protocol: TCP
+    targetPort: 16686
+  selector:
+    app: jaeger
+#  type: LoadBalancer
+  type: NodePort

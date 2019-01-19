@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: srv-guess-game
+spec:
+  hosts:
+  - srv-guess-game
+  http:
+  - route:
+    - destination:
+        host: srv-guess-game
+        subset: v1
+

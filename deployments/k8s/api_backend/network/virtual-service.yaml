@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: api-guess-backend
+spec:
+  hosts:
+  - api-guess-backend
+  http:
+  - route:
+    - destination:
+        host: api-guess-backend
+        subset: v1
+

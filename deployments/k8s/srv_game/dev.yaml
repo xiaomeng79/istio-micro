@@ -1,0 +1,67 @@
+#apiVersion: v1
+#kind: ServiceAccount
+#metadata:
+#  name: test-name
+#  namespace: default
+#---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: srv-guess-game-v1
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: srv-guess-game
+        version: v1
+    spec:
+#      serviceAccountName: test-name
+#      imagePullSecrets:
+#      - name: registry-secret
+      containers:
+      - name: srv-guess-game
+        env:
+        - name: CONFIGOR_TRACE_ADDRESS
+          value: jaeger-agent:6831
+#        - name: CONFIGOR_SERVICE_NAME
+#          value: srv-guess-game
+        - name: CONFIGOR_MYSQL_DBNAME
+          value: guess
+        - name: CONFIGOR_MYSQL_ADDR
+          value: rm-wz928l08s8io5h0l76o.mysql.rds.aliyuncs.com
+        - name: CONFIGOR_MYSQL_USER
+          value: guess
+        - name: CONFIGOR_MYSQL_PASSWORD
+          value: eXJFbcdtm7OWdIJZ
+        - name: RAND_NUM
+          value: num17994
+#        command: [
+#          "/test-game",
+#          "--server_address=:8888",
+#          "--registry=kubernetes",
+#        ]
+        image: srv-guess-game:v1.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5001
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: srv-guess-game
+  namespace: dev
+  labels:
+    app: srv-guess-game
+spec:
+  ports:
+  - port: 5001
+    protocol: TCP
+    targetPort: 5001
+  selector:
+    app: srv-guess-game
+#  type: LoadBalancer
+#  type: NodePort

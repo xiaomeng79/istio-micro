@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+    //用户
+    rpc UserAdd(UserBase) returns (UserBase) {}
+    rpc UserUpdate(UserBase) returns (UserBase) {}
+    rpc UserDelete(UserId) returns (UserId) {}
+    rpc UserQueryOne(UserId) returns (UserBase) {}
+    rpc UserQueryAll(UserAllOption) returns (UserAll) {}
+}
+
+//用户基本信息
+message UserBase {
+    int64 id = 1;
+    string user_name = 2;
+    string iphone = 3;
+    string password = 4;
+    int32 sex = 5; //1:男 2:女 3:不详
+}
+message UserId {
+    int64 id = 1;
+}
+message UserAllOption {
+    int32 sex = 1;
+    Page page = 2;
+    string user_name = 3;
+}
+message UserAll {
+    repeated UserBase all = 1;
+    Page page = 2;
+}
+
+//空消息
+message Null {}
+
+//分页
+message Page {
+    int64 page_index = 1;
+    int64 page_size = 2;
+    int64 page_total = 3;
+    int64 count = 4;
+    int64 total = 5;
+}

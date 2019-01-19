@@ -1,0 +1,129 @@
+version: "3"
+services:
+  #公共的组件
+  redis:
+    image: redis:5.0.3-alpine3.8
+    restart: always
+    volumes:
+    - redis-data-user:/var/lib/redis
+    ports:
+    - "6379:6379"
+  mysqldb:
+    image: 'mysql/mysql-server:5.7'
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+    - mysql-data-user:/var/lib/mysql
+    - ./config/mysql/my.cnf:/etc/my.cnf
+    - ./config/mysql/:/docker-entrypoint-initdb.d/
+    ports:
+    - '3306:3306'
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always
+    ports:
+    - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    restart: always
+    ports:
+    - "9092:9092"
+    depends_on:
+    - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.128
+      KAFKA_CREATE_TOPICS: "test:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  jaeger:
+    image: jaegertracing/all-in-one:1.7
+    restart: always
+    ports:
+    - "5775:5775/udp"
+    - "6831:6831/udp"
+    - "6832:6832/udp"
+    - "5778:5778"
+    - "16686:16686"
+    - "14268:14268"
+    - "9411:9411"
+  #  consul:
+  #    command: -server -bootstrap -rejoin
+  #    image: consul:latest
+  #    ports:
+  #      - "8300:8300"
+  #      - "8400:8400"
+  #      - "8500:8500"
+  #      - "8600:53/udp"
+  #  influxdb:
+  #    image: influxdb:1.5-alpine
+  #    ports:
+  #      - "8086:8086"
+  #  grafana:
+  #    image: grafana/grafana:latest
+  #    ports:
+  #      - "3000:3000"
+
+  #项目
+  srv_user:
+    build: ./bin/srv_user
+    restart: always
+    depends_on:
+    - redis
+    - mysqldb
+    - kafka
+    - jaeger
+    environment:
+      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_MYSQL_ADDR: mysqldb
+      CONFIGOR_MYSQL_PORT: 3306
+      CONFIGOR_MYSQL_DBNAME: user
+      CONFIGOR_MYSQL_USER: test
+      CONFIGOR_MYSQL_PASSWORD: test
+      CONFIGOR_REDIS_ADDR: redis:6379
+      CONFIGOR_REDIS_PASSWORD:
+      CONFIGOR_KAFKA_ADDRS: kafka:9092
+    ports:
+    - "5001:5001"
+  srv_socket:
+    build: ./bin/srv_socket
+    restart: always
+    depends_on:
+    - kafka
+    - jaeger
+    environment:
+      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_KAFKA_ADDRS: kafka:9092
+    ports:
+    - "5002:5002"
+  api_backend:
+    build: ./bin/api_backend
+    restart: always
+    depends_on:
+    - jaeger
+    - srv_user
+    environment:
+      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_SRVUSER_ADDRESS: srv_user:5001
+    ports:
+    - "8888:8888"
+  api_frontend:
+    build: ./bin/api_frontend
+    restart: always
+    depends_on:
+    - jaeger
+    - srv_user
+    environment:
+      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_SRVUSER_ADDRESS: srv_user:5001
+    ports:
+    - "8889:8889"
+
+volumes:
+  mysql-data-user:
+  redis-data-user:
