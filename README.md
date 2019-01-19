@@ -1,5 +1,5 @@
 ## istio-micro
-[![Build Status](https://travis-ci.org/xiaomeng79/istio-micro.svg?branch=master)](https://travis-ci.org/xiaomeng79/istio-micro)
+[![Build Status](https://travis-ci.org/xiaomeng79/istio-micro.svg?branch=master)](https://travis-ci.org/xiaomeng79/istio-micro) [![codecov](https://codecov.io/gh/xiaomeng79/istio-micro/branch/master/graph/badge.svg)](https://codecov.io/gh/xiaomeng79/istio-micro)
 
 ### 介绍
 
@@ -35,6 +35,7 @@
 - 依赖安装
 
 go >=1.11
+
 docker-compose
 
 
@@ -80,6 +81,61 @@ curl -X POST \
 
 3. 查看消息推送窗口是否有变化
 
+#### 目录介绍
 
+
+|技术|描述|
+|---|---|
+|api|api接口|
+|cinit|配置和初始化文件|
+|cmd|程序入口|
+|deployments|部署文件(docker,k8s,istio)|
+|internal|内部公共文件|
+|scripts|脚本文件|
+|srv|服务|
+
+#### 自动化
+
+Makefile
+
+```go
+//格式化代码
+make fmt 
+
+//vendor
+make vendor
+
+//代码测试,代码检查
+make test
+
+//编译单个服务
+make build type=srv project=user
+
+//编译全部服务
+make allbuild
+
+//protobuf
+make proto
+
+//生成单个dockerfile
+make dockerfile type=srv project=user
+
+//生成全部dockerfile
+make alldockerfile
+
+//docker-compose部署
+make compose up
+
+//打包静态文件
+make builddata
+
+//提交代码到远程仓库
+make pull
+```
+
+#### TODO
+
+- 完善istio配置文件
+- 支持swagger接口文档生成
 
 
