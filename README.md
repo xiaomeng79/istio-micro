@@ -130,7 +130,7 @@ make compose up
 make builddata
 
 //提交代码到远程仓库
-make pull
+make push msg="提交信息"
 ```
 
 #### TODO

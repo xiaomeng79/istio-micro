@@ -99,8 +99,8 @@ k8sconfig :
 	@chmod +x k8sconf.sh && ./k8sconf.sh
 
 #提交代码
-.PHONY : pull
-pull : fmt check test
+.PHONY : push
+push : fmt check test
 	git add -A
 	git commit -m $(msg)
 	git push origin master
