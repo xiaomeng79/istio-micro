@@ -17,9 +17,14 @@ vendor :
 	@echo "结束vendor"
 
 .PHONY : test
-test : vendor
+test : vendor check
 	@echo "代码测试[覆盖率]"
-	@go test -mod=vendor -race -cover  ./...
+	@go test -mod=vendor -race -cover  -coverprofile=coverage.txt -covermode=atomic ./...
+
+.PHONY : onlinetest
+onlinetest :
+	@echo "代码测试[覆盖率]"
+	@go test  -race -cover  -coverprofile=coverage.txt -covermode=atomic ./...
 
 #代码检查
 .PHONY : check
