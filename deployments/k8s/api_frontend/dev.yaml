@@ -8,20 +8,20 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   namespace: default
-  name: api-backend-v1
+  name: api-frontend-v1
 spec:
   replicas: 2
   template:
     metadata:
       labels:
-        app: api-backend
+        app: api-frontend
         version: v1
     spec:
 #      serviceAccountName: test-name
 #      imagePullSecrets:
 #      - name: registry-secret
       containers:
-      - name: api-backend
+      - name: api-frontend
         env:
         - name: CONFIGOR_TRACE_ADDRESS
           value: jaeger-agent:6831
@@ -30,28 +30,28 @@ spec:
         - name: RAND_NUM
           value: num179d94
 #        command: [
-#          "/api_backend",
+#          "/api_frontend",
 #        ]
-        image: api-backend:v1.0.1
+        image: api-frontend:v1.0.1
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8888
+        - containerPort: 8889
 
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-backend
+  name: api-frontend
   namespace: dev
   labels:
-    app: api-backend
+    app: api-frontend
 spec:
   ports:
-  - port: 8888
+  - port: 8889
     protocol: TCP
-    targetPort: 8888
+    targetPort: 8889
   selector:
-    app: api-backend
+    app: api-frontend
 #  type: LoadBalancer
 #  type: NodePort

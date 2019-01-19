@@ -7,51 +7,59 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  namespace: default
-  name: api-backend-v1
+namespace: default
+  name: srv-user-v1
 spec:
   replicas: 2
   template:
     metadata:
       labels:
-        app: api-backend
+        app: srv-user
         version: v1
     spec:
 #      serviceAccountName: test-name
 #      imagePullSecrets:
 #      - name: registry-secret
       containers:
-      - name: api-backend
+      - name: srv-user
         env:
         - name: CONFIGOR_TRACE_ADDRESS
           value: jaeger-agent:6831
-        - name: CONFIGOR_SRVUSER_ADDRESS
-          value: srv-user:5001
+#        - name: CONFIGOR_SERVICE_NAME
+#          value: srv-user
+        - name: CONFIGOR_MYSQL_DBNAME
+          value: user
+        - name: CONFIGOR_MYSQL_ADDR
+          value: mysqladdr
+        - name: CONFIGOR_MYSQL_USER
+          value: test
+        - name: CONFIGOR_MYSQL_PASSWORD
+          value: test
         - name: RAND_NUM
-          value: num179d94
+          value: num17994
 #        command: [
-#          "/api_backend",
+#          "/srv_user",
 #        ]
-        image: api-backend:v1.0.1
+        image: srv-user:v1.0.1
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8888
+        - containerPort: 5001
 
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-backend
-  namespace: dev
+  name: srv-user
+namespace: default
   labels:
-    app: api-backend
+    app: srv-user
 spec:
   ports:
-  - port: 8888
+  - port: 5001
     protocol: TCP
-    targetPort: 8888
+    targetPort: 5001
   selector:
-    app: api-backend
+    app: srv-user
 #  type: LoadBalancer
 #  type: NodePort

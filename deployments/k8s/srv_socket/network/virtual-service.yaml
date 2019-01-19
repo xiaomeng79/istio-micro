@@ -1,13 +1,13 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: api-backend
+  name: srv-socket
 spec:
   hosts:
-  - api-backend
+  - srv-socket
   http:
   - route:
     - destination:
-        host: api-backend
+        host: srv-socket
         subset: v1
 

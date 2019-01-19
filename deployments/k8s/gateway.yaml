@@ -1,8 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: guess-gateway
-  namespace: dev
+  name: user-gateway
 spec:
   selector:
     istio: ingressgateway # use istio default controller
@@ -17,13 +16,12 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: guess
-  namespace: dev
+  name: user
 spec:
   hosts:
   - "*"
   gateways:
-  - guess-gateway
+  - user-gateway
   http:
   - match:
 #    - uri:
@@ -34,6 +32,15 @@ spec:
         prefix: /backend/
     route:
     - destination:
-        host: api-guess-backend
+        host: api-backend
         port:
           number: 8888
+
+  - match:
+    - uri:
+        prefix: /frontend/
+    route:
+    - destination:
+        host: api-frontend
+        port:
+          number: 8889

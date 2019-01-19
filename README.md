@@ -1,6 +1,12 @@
 ## istio-micro
 [![Build Status](https://travis-ci.org/xiaomeng79/istio-micro.svg?branch=master)](https://travis-ci.org/xiaomeng79/istio-micro) [![codecov](https://codecov.io/gh/xiaomeng79/istio-micro/branch/master/graph/badge.svg)](https://codecov.io/gh/xiaomeng79/istio-micro)
 
+
+#### 使用go-micro构建微服务示例请到一下仓库
+
+[go-example](https://github.com/xiaomeng79/go-example)
+
+
 ### 介绍
 
 通过一个前后台都可以操作的用户接口,对用户服务进行操作
@@ -132,6 +138,21 @@ make builddata
 //提交代码到远程仓库
 make push msg="提交信息"
 ```
+
+#### k8s部署
+
+```go
+kubectl apply -f deployments/k8s/api_backend/dev.yaml
+kubectl apply -f deployments/k8s/api_frontend/dev.yaml
+kubectl apply -f deployments/k8s/srv_user/dev.yaml
+kubectl apply -f deployments/k8s/srv_socket/dev.yaml
+
+```
+
+#### istio部署
+
+**待完善**
+在k8s部署的基础上,执行deployments/k8s目录下各个network文件和网关文件
 
 #### TODO
 

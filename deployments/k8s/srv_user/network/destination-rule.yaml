@@ -1,9 +1,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: srv-guess-game
+  name: srv-user
 spec:
-  host: srv-guess-game
+  host: srv-user
   subsets:
   - name: v1
     labels:
