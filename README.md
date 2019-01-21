@@ -34,7 +34,7 @@
 - srv_user 用户服务
 - srv_socket 推送服务
 
-### 快速演示
+### 快速演示(docker-compose)
 
 ### 安装流程
 
@@ -141,6 +141,9 @@ make push msg="提交信息"
 
 #### k8s部署
 
+- 本地安装测试k8s [minikube](https://github.com/kubernetes/minikube)
+- k8s安装kafka [kubernetes-kafka](https://github.com/Yolean/kubernetes-kafka)
+- k8s安装redis,mysql [k8s-install-scripts](https://github.com/zhuchuangang/k8s-install-scripts)
 ```go
 kubectl apply -f deployments/k8s/api_backend/dev.yaml
 kubectl apply -f deployments/k8s/api_frontend/dev.yaml
