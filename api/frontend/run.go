@@ -63,7 +63,6 @@ func Run() {
 	//e.Use(common.Opentracing)
 	e.Use(api.TraceHeader)
 	//e.Use(api.NoSign)
-
 	//总分组
 	g := e.Group("/frontend/v1")
 	//g := e.Group("/backend/v1", api.JWT)

@@ -39,6 +39,7 @@ require (
 	github.com/opentracing/opentracing-go v1.0.2
 	github.com/pierrec/lz4 v2.0.7+incompatible // indirect
 	github.com/pkg/errors v0.8.1 // indirect
+	github.com/rakyll/autopprof v0.1.0 // indirect
 	github.com/rakyll/statik v0.1.5
 	github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect

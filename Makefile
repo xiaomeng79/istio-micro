@@ -1,5 +1,6 @@
 #定义变量
 GOPROXY=https://goproxy.io
+GO111MODULE=on
 #GOTHIRDPKG=${HOME}/gopkg/third
 
 #project:game prize pusher socket
@@ -68,7 +69,7 @@ proto :
 dockerfile :
 
 	@echo "部分生成dockerfile开始"
-	@chmod +x ./scripts/dockerfile.sh && ./scripts/dockerfile.sh df $(project) $(type)
+	@chmod +x ./scripts/dockerfile.sh && ./scripts/dockerfile.sh df $(type) $(project)
 	@echo "部分生成Dockerfile结束"
 
 
@@ -96,7 +97,17 @@ builddata :
 k8sconfig :
 
 	@echo "配置k8s"
-	@chmod +x k8sconf.sh && ./k8sconf.sh
+	@chmod +x ./scripts/k8sconf.sh && ./scripts/k8sconf.sh
+
+#pprof性能分析
+.PHONY : pprofon
+pprofon :
+	@chmod +x ./scripts/pprof.sh && ./scripts/pprof.sh pprofon $(type) $(project)
+
+#pprof性能分析
+.PHONY : pprofoff
+pprofoff :
+	@chmod +x ./scripts/pprof.sh && ./scripts/pprof.sh pprofoff $(type) $(project)
 
 #提交代码
 .PHONY : push

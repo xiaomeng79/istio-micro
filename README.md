@@ -137,13 +137,40 @@ make builddata
 
 //提交代码到远程仓库
 make push msg="提交信息"
+
+//开启代码性能分析(如type为api,project为frontend)
+make pprofon type=api project=frontend
+
+//关闭代码性能分析(如type为api,project为frontend)
+make pprofoff type=api project=frontend
 ```
+
+#### 代码性能分析(可以线上临时开启分析)
+
+[pprof封装库](./pkg/pprof)
+
+程序运行的时候会生成进程id(默认在运行目录下server.pid),通过kill命令发送一个信号(默认10)到程序**开启**性能分析,kill命令发送一个信号(默认12)到程序**关闭**性能分析
+
+
+```shell
+//比如进程id:3125
+kill -10 3125 //开启代码性能分析
+
+go tool pprof http://127.0.0.1:38888/debug/pprof/goroutine //goroutine
+go tool pprof http://127.0.0.1:38888/debug/pprof/heap //heap
+go tool pprof http://127.0.0.1:38888/debug/pprof/profile //profile
+
+kill -12 3125 //关闭代码性能分析
+```
+
+
 
 #### k8s部署
 
 - 本地安装测试k8s [minikube](https://github.com/kubernetes/minikube)
 - k8s安装kafka [kubernetes-kafka](https://github.com/Yolean/kubernetes-kafka)
 - k8s安装redis,mysql [k8s-install-scripts](https://github.com/zhuchuangang/k8s-install-scripts)
+- k8s安装jaeger [jaeger-kubernetes](https://github.com/jaegertracing/jaeger-kubernetes) `kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml`
 ```go
 kubectl apply -f deployments/k8s/api_backend/dev.yaml
 kubectl apply -f deployments/k8s/api_frontend/dev.yaml

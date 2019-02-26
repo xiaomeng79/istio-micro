@@ -44,3 +44,4 @@ bin
 deployments/bin
 vendor
 check.log
+*.pid

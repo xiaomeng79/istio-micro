@@ -2,7 +2,9 @@
 
 package main
 
-import "github.com/xiaomeng79/istio-micro/api/frontend"
+import (
+	"github.com/xiaomeng79/istio-micro/api/frontend"
+)
 
 func main() {
 	frontend.Run()

@@ -2,6 +2,7 @@ package cinit
 
 import (
 	"github.com/jinzhu/configor"
+	"github.com/xiaomeng79/istio-micro/pkg/pprof"
 	"log"
 )
 
@@ -119,6 +120,8 @@ var closeArgs []string
 //初始化选项
 //log:日志(必须) trace:链路跟踪 mysql:mysql数据库 mongo:MongoDB
 func InitOption(sn string, args ...string) {
+	//开启pprof
+	go pprof.Run()
 	//保存需要关闭的参数
 	closeArgs = args
 	//1.初始化配置参数
