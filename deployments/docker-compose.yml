@@ -36,8 +36,8 @@ services:
     depends_on:
     - zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.128
-      KAFKA_CREATE_TOPICS: "test:1:1"
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.103
+      KAFKA_CREATE_TOPICS: "test:1:2"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
@@ -60,14 +60,14 @@ services:
   #      - "8400:8400"
   #      - "8500:8500"
   #      - "8600:53/udp"
-  #  influxdb:
-  #    image: influxdb:1.5-alpine
-  #    ports:
-  #      - "8086:8086"
-  #  grafana:
-  #    image: grafana/grafana:latest
-  #    ports:
-  #      - "3000:3000"
+  influxdb:
+    image: influxdb:1.5-alpine
+    ports:
+    - "8086:8086"
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+    - "3000:3000"
 
   #项目
   srv_user:
@@ -107,6 +107,8 @@ services:
     depends_on:
     - jaeger
     - srv_user
+    - influxdb
+    - grafana
     environment:
       CONFIGOR_TRACE_ADDRESS: jaeger:6831
       CONFIGOR_SRVUSER_ADDRESS: srv_user:5001

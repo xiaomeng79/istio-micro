@@ -24,6 +24,7 @@
 |jaeger|链路跟踪|
 |EFK|日志收集存储查询(没涉及,只把日志打到文件)[go-log](https://github.com/xiaomeng79/go-log)|
 |statik|静态文件打包|
+|metric|监控报警(influxdb+grafana)|
 |docker-compose|容器部署|
 |istio|流量控制,服务降级,跟踪,服务发现,分流等|
 
@@ -144,6 +145,12 @@ make pprofon type=api project=frontend
 //关闭代码性能分析(如type为api,project为frontend)
 make pprofoff type=api project=frontend
 ```
+
+#### 监控报警
+
+influxdb提供采集数据存储,grafana提供数据展示,报警
+
+http://127.0.0.1:3000 账号密码:admin
 
 #### 代码性能分析(可以线上临时开启分析)
 

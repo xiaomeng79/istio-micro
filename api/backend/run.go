@@ -9,6 +9,7 @@ import (
 	"github.com/xiaomeng79/go-log"
 	"github.com/xiaomeng79/istio-micro/cinit"
 	"github.com/xiaomeng79/istio-micro/internal/api"
+	"github.com/xiaomeng79/istio-micro/internal/metrics"
 	"github.com/xiaomeng79/istio-micro/internal/wrapper"
 	pb "github.com/xiaomeng79/istio-micro/srv/user/proto"
 	"google.golang.org/grpc"
@@ -63,6 +64,36 @@ func Run() {
 	//e.Use(common.Opentracing)
 	e.Use(api.TraceHeader)
 	//e.Use(api.NoSign)
+
+	//metrics
+	// Metrics
+	if cinit.Config.Metrics.Enable == "yes" {
+
+		/* Pull模式
+		e.Use(prometheus.MetricsFunc(
+			prometheus.Namespace("common_api"),
+		))
+		*/
+
+		// Push模式
+		m := metrics.NewMetrics()
+		e.Use(api.MetricsFunc(m))
+		m.MemStats()
+		// InfluxDB
+		m.InfluxDBWithTags(
+			time.Duration(cinit.Config.Metrics.Duration)*time.Second,
+			cinit.Config.Metrics.Url,
+			cinit.Config.Metrics.Database,
+			cinit.Config.Metrics.UserName,
+			cinit.Config.Metrics.Password,
+			map[string]string{"service": SN},
+		)
+
+		// Graphite
+		//addr, _ := net.ResolveTCPAddr("tcp", Conf.Metrics.Address)
+		//m.Graphite(Conf.Metrics.FreqSec*time.Second, "echo-web.node."+hostname, addr)
+
+	}
 
 	//总分组
 	g := e.Group("/backend/v1")

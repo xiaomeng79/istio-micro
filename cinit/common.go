@@ -70,7 +70,7 @@ var Config = struct {
 	Metrics struct {
 		Enable   string `default:"yes"` //是否启用:yes 启用 no 停用
 		Duration int    `default:"5"`   //单位秒
-		Url      string `default:"http://127.0.0.1:8086"`
+		Url      string `default:"http://influxdb:8086"`
 		Database string `default:"test"`
 		UserName string `default:""`
 		Password string `default:""`
