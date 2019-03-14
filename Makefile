@@ -2,6 +2,8 @@
 GOPROXY=https://goproxy.io
 GO111MODULE=on
 #GOTHIRDPKG=${HOME}/gopkg/third
+VERSION=$(shell git describe --abbrev=0 --tags)
+COMMIT=$(shell git rev-parse --short HEAD)
 
 #project:game prize pusher socket
 #type:api srv web
@@ -121,3 +123,6 @@ push : fmt check test
 clean :
 	@git clean -dxf -e .idea
 
+#发行版本
+release :
+	@chmod +x ./scripts/release.sh && ./scripts/release.sh
