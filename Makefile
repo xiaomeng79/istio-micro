@@ -115,3 +115,8 @@ push : fmt check test
 	git add -A
 	git commit -m $(msg)
 	git push origin master
+
+#清理
+.PHONY : clean
+clean :
+	@git clean -d -f
