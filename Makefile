@@ -119,4 +119,5 @@ push : fmt check test
 #清理
 .PHONY : clean
 clean :
-	@git clean -d -f
+	@git clean -dxf -e .idea
+
