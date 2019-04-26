@@ -41,7 +41,7 @@ services:
     image: redis:5.0.3-alpine3.8
     restart: always
     volumes:
-    - redis-data-user:/var/lib/redis
+    - redis-data-user-istio:/var/lib/redis
     ports:
     - "6379:6379"
   mysqldb:
@@ -54,11 +54,11 @@ services:
       MYSQL_USER: test
       MYSQL_PASSWORD: test
     volumes:
-    - mysql-data-user:/var/lib/mysql
+    - mysql-data-user-istio:/var/lib/mysql
     - ./config/mysql/my.cnf:/etc/my.cnf
     - ./config/mysql/:/docker-entrypoint-initdb.d/
     ports:
-    - '3306:3306'
+    - '3307:3306'
   zookeeper:
     image: wurstmeister/zookeeper
     restart: always
@@ -104,6 +104,29 @@ services:
     image: grafana/grafana:latest
     ports:
     - "3000:3000"
+  # 数据订阅
+#  canal_server:
+#    image: canal/canal-server:v1.1.1
+#    restart: always
+#    depends_on:
+#    - mysqldb
+#    environment:
+#      #      canal.auto.scan: !!bool false
+#      canal.destinations: test
+#      #本地测试环境
+#      canal.instance.master.address: mysqldb:3306 #本地测试环境
+#      canal.instance.dbUsername: test
+#      canal.instance.dbPassword: test
+#      canal.instance.connectionCharset: UTF-8
+#    #      canal.instance.tsdb.enable: !!bool false
+#    #      canal.instance.gtidon: !!bool false
+#    #      canal.instance.master.journal.name: mysql-bin.000881
+#    #      canal.instance.master.position: 4
+#    ports:
+#    - "8000:8000"
+#    - "2222:2222"
+#    - "11111:11111"
+#    - "11112:11112"
 
   #项目
   srv_user:
@@ -127,7 +150,7 @@ services:
       CONFIGOR_KAFKA_ADDRS: kafka:9092
     ports:
     - "5001:5001"
-    - "9999:9999"
+    - "9998:9999"
   srv_socket:
     build: ./bin/srv_socket
     restart: always
@@ -165,5 +188,5 @@ services:
     - "8889:8889"
 
 volumes:
-  mysql-data-user:
-  redis-data-user:
+  mysql-data-user-istio:
+  redis-data-user-istio:

@@ -85,6 +85,14 @@ curl -X POST \
   -H 'Content-Type: application/json' \
   -d '{"user_name":"meng","iphone":"18201420251","sex":1,"password":"123456"}'
 ```
+也可使用grpc-gateway(网关端口:9998)发送信息
+```bash
+curl -X POST \
+  http://127.0.0.1:9998/user \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '{"user_name":"meng","iphone":"18201420251","sex":1,"password":"123456"}'
+```
 
 3. 查看消息推送窗口是否有变化
 
@@ -144,6 +152,9 @@ make pprofon type=api project=frontend
 
 //关闭代码性能分析(如type为api,project为frontend)
 make pprofoff type=api project=frontend
+
+// 清空编译
+make clean
 ```
 
 #### 监控报警
@@ -151,6 +162,12 @@ make pprofoff type=api project=frontend
 influxdb提供采集数据存储,grafana提供数据展示,报警
 
 http://127.0.0.1:3000 账号密码:admin
+
+```bash
+# 新建数据源(influxdb) 地址:http://influxdb:8086
+# 导入度量的信息(deployments/config/metrics/gc.json) 可以查看gc和内存信息
+
+```
 
 #### 代码性能分析(可以线上临时开启分析)
 
@@ -170,7 +187,19 @@ go tool pprof http://127.0.0.1:38888/debug/pprof/profile //profile
 kill -12 3125 //关闭代码性能分析
 ```
 
+#### 生成文档(swagger)
+```bash
+# 安装grpc-gateway
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+# 安装文档生成
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+# 生成网关和文档
+make proto
+# 本地文档地址(istio-micro/deployments/config/swagger/srv/user/proto/user.swagger.json)
+# 在线文档地址(http://127.0.0.1:9998/swagger/user.swagger.json)
+# 可以使用swagger-ui(http://editor.swagger.io/)查看
 
+```
 
 #### k8s部署
 
@@ -194,6 +223,5 @@ kubectl apply -f deployments/k8s/srv_socket/dev.yaml
 #### TODO
 
 - 完善istio配置文件
-- 支持swagger接口文档生成
 
 
