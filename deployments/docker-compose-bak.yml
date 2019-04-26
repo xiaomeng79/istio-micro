@@ -1,42 +1,6 @@
 version: "3"
 services:
   #公共的组件
-  #  golang:
-  #    image: golang:1.11-alpine3.9
-  #    volumes:
-  #      - golang-pprof:/root/pprof
-  #    command: ["top"]
-  #   networks:
-  #   - statis
-  #  elasticsearch:
-  #    image: elasticsearch:5.6.16-alpine
-  ##    image: elasticsearch:6.7.1
-  #    container_name: elasticsearch
-  #    environment:
-  #    - cluster.name=docker-cluster
-  #    - bootstrap.memory_lock=true
-  #    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  #    ulimits:
-  #      memlock:
-  #        soft: -1
-  #        hard: -1
-  #    volumes:
-  #    - esdata1:/usr/share/elasticsearch/data
-  #    ports:
-  #    - 9200:9200
-  #    networks:
-  #    - statis
-#  swagger:
-#    image: swaggerapi/swagger-ui
-#    ports:
-#    - "8887:8080"
-#    networks:
-#    - statis
-#    environment:
-#      SWAGGER_JSON: /swagger/srv/statis/proto/rbac.swagger.json
-#    #      BASE_URL: /swagger
-#    volumes:
-#    - ./config/swagger/:/swagger
   redis:
     image: redis:5.0.3-alpine3.8
     restart: always
@@ -114,7 +78,6 @@ services:
     - mysqldb
     - kafka
     - jaeger
-    - influxdb
     environment:
       CONFIGOR_TRACE_ADDRESS: jaeger:6831
       CONFIGOR_MYSQL_ADDR: mysqldb
@@ -127,7 +90,6 @@ services:
       CONFIGOR_KAFKA_ADDRS: kafka:9092
     ports:
     - "5001:5001"
-    - "9999:9999"
   srv_socket:
     build: ./bin/srv_socket
     restart: always

@@ -80,6 +80,8 @@ var Config = struct {
 	SrvUser struct {
 		Port    string `default:":5001"`          //定义的端口
 		Address string `default:"127.0.0.1:5001"` //访问地址
+		GateWayAddr string `default:":9999"` //网关端口
+		GateWaySwaggerDir string `default:"/swagger"` // swagger目录
 	}
 	//api backend
 	ApiBackend struct {
@@ -140,6 +142,8 @@ func InitOption(sn string, args ...string) {
 			redisInit()
 		case "kafka":
 			KafkaInit()
+		case "metrics":
+			metricsInit(sn)
 		}
 	}
 }
@@ -160,7 +164,7 @@ func Close() {
 			redisClose()
 		case "kafka":
 			KafkaClose()
+		case "metrics":
 		}
 	}
-
 }

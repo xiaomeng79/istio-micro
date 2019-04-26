@@ -1,0 +1,335 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "用户",
+    "version": "1.0",
+    "contact": {
+      "name": "xiaomeng79",
+      "url": "https://github.com/xiaomeng79",
+      "email": "mengmeng79@yeah.net"
+    }
+  },
+  "host": "127.0.0.1:9999",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "summary": "用户查询全部",
+        "operationId": "UserQueryAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userUserAll"
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "sex",
+            "description": "用户性别.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "DEFAULT",
+              "MEN",
+              "WOMEN"
+            ],
+            "default": "DEFAULT"
+          },
+          {
+            "name": "page.page_index",
+            "description": "页.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "page.page_size",
+            "description": "每页大小.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "page.page_total",
+            "description": "总页数.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "page.count",
+            "description": "条数.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "page.total",
+            "description": "总条数.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "user_name",
+            "description": "用户名称.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      },
+      "post": {
+        "summary": "用户添加",
+        "operationId": "UserAdd",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userUserBase"
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userUserBase"
+            }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      },
+      "put": {
+        "summary": "用户更新",
+        "operationId": "UserUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userUserBase"
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userUserBase"
+            }
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "用户查询一个",
+        "operationId": "UserQueryOne",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userUserBase"
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "用户id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      },
+      "delete": {
+        "summary": "用户删除",
+        "operationId": "UserDelete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userUserId"
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "用户id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "UserService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "userPage": {
+      "type": "object",
+      "properties": {
+        "page_index": {
+          "type": "string",
+          "format": "int64",
+          "title": "页"
+        },
+        "page_size": {
+          "type": "string",
+          "format": "int64",
+          "title": "每页大小"
+        },
+        "page_total": {
+          "type": "string",
+          "format": "int64",
+          "title": "总页数"
+        },
+        "count": {
+          "type": "string",
+          "format": "int64",
+          "title": "条数"
+        },
+        "total": {
+          "type": "string",
+          "format": "int64",
+          "title": "总条数"
+        }
+      },
+      "title": "分页"
+    },
+    "userUserAll": {
+      "type": "object",
+      "properties": {
+        "all": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/userUserBase"
+          },
+          "title": "用户信息"
+        },
+        "page": {
+          "$ref": "#/definitions/userPage",
+          "title": "页数"
+        }
+      },
+      "title": "用户全部"
+    },
+    "userUserBase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "用户id"
+        },
+        "user_name": {
+          "type": "string",
+          "title": "用户名称"
+        },
+        "iphone": {
+          "type": "string",
+          "title": "手机号"
+        },
+        "password": {
+          "type": "string",
+          "title": "密码"
+        },
+        "sex": {
+          "$ref": "#/definitions/userUserSex",
+          "title": "性别"
+        }
+      },
+      "title": "用户基本信息"
+    },
+    "userUserId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "用户id"
+        }
+      },
+      "title": "用户Id"
+    },
+    "userUserSex": {
+      "type": "string",
+      "enum": [
+        "DEFAULT",
+        "MEN",
+        "WOMEN"
+      ],
+      "default": "DEFAULT",
+      "title": "用户性别"
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "name": "X-API-Key",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ]
+}

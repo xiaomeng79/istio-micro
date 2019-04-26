@@ -8,15 +8,22 @@ gen(){
 pname="$1_$2"
 #模板
 filename=./deployments/bin/"$pname"
+swagger=./deployments/config/swagger/$1/$2/proto
 #判断bin是否存在
 if [ ! -d deployments/bin/"$pname" ];then
-mkdir -p deployments/bin/"$pname"
+mkdir -p deployments/bin/"$pname"/proto
+fi
+
+#判断swagger存在复制到这个目录下面
+if [ -d $swagger ];then
+cp -r $swagger/ $filename
 fi
 
 cat>$filename/Dockerfile<<EOF
 FROM alpine:3.2
 RUN set -xe && apk add --no-cache tzdata && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ADD $pname /$pname
+ADD proto/ /swagger
 RUN chmod +x /$pname
 ENTRYPOINT [ "/$pname" ]
 EOF
