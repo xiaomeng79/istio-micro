@@ -126,3 +126,15 @@ clean :
 #发行版本
 release :
 	@chmod +x ./scripts/release.sh && ./scripts/release.sh
+
+#清理没用的docker镜像
+docker-clean:
+	docker images
+	docker image prune --force
+
+docker-kill:
+	docker kill `docker ps -q` || true
+
+docker-remove:
+	docker rm --force `docker ps -a -q` || true
+	docker rmi --force `docker images -q` || true

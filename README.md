@@ -215,13 +215,12 @@ kubectl apply -f deployments/k8s/srv_socket/dev.yaml
 
 ```
 
-#### istio部署
+#### istio流量控制
 
-**待完善**
-在k8s部署的基础上,执行deployments/k8s目录下各个network文件和网关文件
+执行deployments/k8s目录下各个network文件和网关文件
 
 #### TODO
 
-- 完善istio配置文件
+- 完善istio其他配置文件
 
 

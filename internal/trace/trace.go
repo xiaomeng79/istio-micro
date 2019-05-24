@@ -1,6 +1,7 @@
 package trace
 
 //
+//
 //import (
 //	"context"
 //	"github.com/opentracing/opentracing-go"
@@ -44,7 +45,7 @@ package trace
 //}
 //
 //func traceIntoContextByGlobalTracer(ctx context.Context, tracer opentracing.Tracer, name string) (context.Context, opentracing.Span, error) {
-//	md, ok := metadata.FromContext(ctx)
+//	md, ok := metadata.FromIncomingContext(ctx)
 //	if !ok {
 //		md = make(map[string]string)
 //	}

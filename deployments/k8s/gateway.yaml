@@ -12,35 +12,4 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: user
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - user-gateway
-  http:
-  - match:
-#    - uri:
-#        exact: /login
-#    - uri:
-#        exact: /logout
-    - uri:
-        prefix: /backend/
-    route:
-    - destination:
-        host: api-backend
-        port:
-          number: 8888
 
-  - match:
-    - uri:
-        prefix: /frontend/
-    route:
-    - destination:
-        host: api-frontend
-        port:
-          number: 8889

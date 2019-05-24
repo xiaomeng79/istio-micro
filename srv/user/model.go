@@ -203,6 +203,17 @@ func (m *User) QueryAll(ctx context.Context) ([]*User, utils.Page, error) {
 	all := make([]*User, 0, m.Page.PageSize)
 	countQuery := `SELECT count(id) FROM user WHERE is_usable=1 `
 	query := `SELECT id,user_name,password,iphone,sex FROM user WHERE is_usable=1 `
+
+	/***************************使用IN**********************************/
+	//_sql := `SELECT id,user_name,password,iphone,sex FROM user WHERE id IN(?)`
+	//_args := make([]interface{}, 0)
+	//_sql, _args, err = sqlx.In(_sql, args...)
+	//if err != nil {
+	//	log.Error(err.Error(), ctx)
+	//}
+	//_sql = cinit.Mysql.Rebind(_sql)
+
+	/**********************************************************************/
 	where := ""
 	args := make([]interface{}, 0)
 	if m.Sex > 0 {

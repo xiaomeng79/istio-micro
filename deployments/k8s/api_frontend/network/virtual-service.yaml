@@ -4,10 +4,55 @@ metadata:
   name: api-frontend
 spec:
   hosts:
-  - api-frontend
+  - "*"
+  gateways:
+  - user-gateway
   http:
-  - route:
+  - match:
+    #    - uri:
+    #        exact: /login
+    #    - uri:
+    #        exact: /logout
+#    - uri:
+#        prefix: /backend/
+#    route:
+#    - destination:
+#        host: api-backend
+#        port:
+#          number: 8888
+
+  - match:
+    - uri:
+        prefix: /frontend/
+    route:
     - destination:
         host: api-frontend
         subset: v1
+        port:
+          number: 8889
+    corsPolicy:
+      allowOrigin:
+      - "*"
+      allowMethods:
+      - POST
+      - GET
+      - DELETE
+      - PUT
+      - PATCH
+      - OPTIONS
+      - HEAD
+      allowCredentials: false
+      allowHeaders:
+      - Content-Type
+      - Accept
+      - Authorization
+    #      maxAge: "24h"
+    #          weight: 100
+    #    - destination:
+    #        host: api-statis
+    #        subset: v2
+    #        port:
+    #          number: 8888
+    #      weight: 50
+
 
