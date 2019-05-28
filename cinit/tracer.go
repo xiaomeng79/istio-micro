@@ -1,9 +1,9 @@
 package cinit
 
 import (
-	"github.com/xiaomeng79/istio-micro/internal/trace"
 	"github.com/opentracing/opentracing-go"
 	"github.com/xiaomeng79/go-log"
+	"github.com/xiaomeng79/istio-micro/internal/trace"
 	"io"
 )
 

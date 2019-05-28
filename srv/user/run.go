@@ -21,7 +21,7 @@ const (
 func Run() {
 
 	//初始化,选着需要的组件
-	cinit.InitOption(SN, "trace", "mysql", "redis", "kafka","metrics")
+	cinit.InitOption(SN, "trace", "mysql", "redis", "kafka", "metrics")
 
 	lis, err := net.Listen("tcp", cinit.Config.SrvUser.Port)
 	if err != nil {

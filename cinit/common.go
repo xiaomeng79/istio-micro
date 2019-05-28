@@ -28,10 +28,10 @@ var Config = struct {
 	}
 	//tracing
 	Trace struct { //链路跟踪
-		Address       string  `default:"http://jaeger:14268/api/traces?format=jaeger.thrift"`      // http://jaeger:14268/api/traces?format=jaeger.thrift
-		ZipkinURL     string  `default:""`      //http://zipkin:9411/api/v1/spans
-		SamplingRate  float64 `default:"0.1"`   // 采样率 0.01-1范围
-		LogTraceSpans bool    `default:"false"` // 日志
+		Address       string  `default:"http://jaeger:14268/api/traces?format=jaeger.thrift"` // http://jaeger:14268/api/traces?format=jaeger.thrift
+		ZipkinURL     string  `default:""`                                                    //http://zipkin:9411/api/v1/spans
+		SamplingRate  float64 `default:"0.1"`                                                 // 采样率 0.01-1范围
+		LogTraceSpans bool    `default:"false"`                                               // 日志
 	}
 	//log config
 	Log struct { //日志
@@ -81,10 +81,10 @@ var Config = struct {
 
 	//userservice
 	SrvUser struct {
-		Port    string `default:":5001"`          //定义的端口
-		Address string `default:"127.0.0.1:5001"` //访问地址
-		GateWayAddr string `default:":9999"` //网关端口
-		GateWaySwaggerDir string `default:"/swagger"` // swagger目录
+		Port              string `default:":5001"`          //定义的端口
+		Address           string `default:"127.0.0.1:5001"` //访问地址
+		GateWayAddr       string `default:":9999"`          //网关端口
+		GateWaySwaggerDir string `default:"/swagger"`       // swagger目录
 	}
 	//api backend
 	ApiBackend struct {
