@@ -123,7 +123,7 @@ make vendor
 //代码测试,代码检查
 make test
 
-//编译单个服务
+//编译单个服务,同时添加版本信息
 make build type=srv project=user
 
 //编译全部服务
@@ -155,6 +155,14 @@ make pprofoff type=api project=frontend
 
 // 清空编译
 make clean
+```
+
+#### 命令行
+
+```bash
+# 每个执行程序，可以查看版本和提交信息,如：srv_user
+./srv_user version
+
 ```
 
 #### 监控报警
