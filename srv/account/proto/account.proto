@@ -1,0 +1,156 @@
+syntax = "proto3";
+
+package account;
+
+// 参考:https://github.com/chai2010/advanced-go-programming-book/blob/master/ch4-rpc/ch4-06-grpc-ext.md
+// 参考:https://github.com/grpc-ecosystem/grpc-gateway/tree/master/examples/proto/examplepb
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "账户";
+        version: "1.0";
+        contact: {
+            name: "xiaomeng79";
+            url: "https://github.com/xiaomeng79";
+            email: "mengmeng79@yeah.net";
+        };
+    };
+    host: "127.0.0.1:9997";
+    //    base_path: "/backend/v1";
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+    security_definitions: {
+        security: {
+            key: "ApiKeyAuth";
+            value: {
+                type: TYPE_API_KEY;
+                in: IN_HEADER;
+                name: "X-API-Key";
+            }
+        }
+    }
+    security: {
+        security_requirement: {
+            key: "ApiKeyAuth";
+            value: {};
+        }
+    }
+    responses: {
+        key: "403";
+        value: {
+            description: "没权限";
+        }
+    }
+};
+
+
+
+// 账户服务
+service AccountService {
+    // 账户添加
+    rpc AccountAdd(AccountBase) returns (AccountBase) {
+        option (google.api.http) = {
+			post: "/account"
+			body:"*"
+		};
+    }
+    // 账户更新
+    rpc AccountUpdate(AccountUpdateReq) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+			put: "/account/{id}"
+			body:"*"
+		};
+    }
+
+//    // 账户删除
+//    rpc AccountDelete(AccountId) returns (AccountId) {
+//        option (google.api.http) = {
+//			delete: "/Account/{id}"
+//		};
+//    }
+
+    // 账户查询一个
+    rpc AccountQueryOne(AccountId) returns (AccountBase) {
+        option (google.api.http) = {
+			get: "/account/{id}"
+			response_body:"*"
+		};
+    }
+}
+
+
+
+// 注入标签: https://github.com/favadi/protoc-go-inject-tag
+
+// 账户基本信息
+message AccountBase {
+    // @inject_tag: db:"id"
+    int64 id = 1 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"账户id"}];
+    // @inject_tag: db:"user_id" valid:"required~用户id必须存在"
+    int64 user_id = 2 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"用户id"}];
+    // 账户级别
+    enum Level {
+        LevelDefault = 0;
+        LevelOne = 1;
+        LevelTwo = 2;
+        LevelThree = 3;
+    }
+    // @inject_tag: db:"account_level" valid:"required~账户级别必须存在"
+    Level account_level = 3 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"账户级别"}];
+    // @inject_tag: db:"balance"
+    float balance = 4 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"余额"}];
+    // 账户状态
+    enum Status {
+        StatusDefault = 0;
+        // 正常
+        StatusNormal = 1;
+        // 冻结
+        StatusFrozen = 2;
+    }
+    // @inject_tag: db:"account_status" valid:"required~账户状态必须存在"
+    Status account_status = 5 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"账户状态"}];
+}
+// 账户Id
+message AccountId {
+    // 账户id
+    int64 id = 1 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"账户id" read_only:true}];
+}
+
+// 账户更新请求
+message AccountUpdateReq {
+    // 账户id
+    int64 id = 1 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"账户id" read_only:true}];
+    // 账户余额
+    float balance = 2;
+}
+
+
+// 账户全部
+message AccountAll {
+    // 账户信息
+    repeated AccountBase all = 1;
+    // 页数
+    Page page = 2;
+}
+
+// 空消息
+message Null {}
+
+// 分页
+message Page {
+    // 页
+    int64 page_index = 1;
+    // 每页大小
+    int64 page_size = 2;
+    // 总页数
+    int64 page_total = 3;
+    // 条数
+    int64 count = 4;
+    // 总条数
+    int64 total = 5;
+}

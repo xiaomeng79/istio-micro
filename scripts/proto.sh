@@ -36,5 +36,10 @@ proto_inject() {
 	fi
 }
 
+# 用户
 proto user
 proto_inject user
+
+# 账户
+proto account
+proto_inject account

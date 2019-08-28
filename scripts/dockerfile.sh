@@ -24,6 +24,7 @@ FROM alpine:3.2
 RUN set -xe && apk add --no-cache tzdata && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ADD $pname /$pname
 ADD proto/ /swagger
+ADD sqlupdate/ /sqlupdate
 RUN chmod +x /$pname
 ENTRYPOINT [ "/$pname" ]
 EOF
@@ -36,6 +37,7 @@ allgen() {
     gen api frontend
     gen srv user
     gen srv socket
+    gen srv account
 }
 
 #判断如何build

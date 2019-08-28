@@ -34,6 +34,7 @@
 - api_frontend 前台查询用户的接口
 - srv_user 用户服务
 - srv_socket 推送服务
+- srv_account 账户服务
 
 ### 快速演示(docker-compose)
 
@@ -168,6 +169,12 @@ make clean
 ./srv_user version
 
 ```
+#### 增量更新sql
+
+原理:通过在程序上,加上版本号如:`v1.0.1`,在数据库记录上一个更新程序程序版本号如:`v0.1.1`,程序启动会判断更新记录,并将中间的版本号的sql,按照版本号从小
+到大排序后,依次执行,执行完成后并更新数据库版本号为最新的版本号
+
+[增量更新sql文件说明](./srv/account/README.md)
 
 #### 监控报警
 

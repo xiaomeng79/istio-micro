@@ -42,8 +42,8 @@ build() {
 
 #build app
 buildapp() {
-
-    go build -mod=vendor -a -installsuffix cgo -ldflags                           \
+    mkdir -p deployments/bin/${1}_${2}/sqlupdate && \
+    CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -ldflags                           \
     "                                           \
     -w                                           \
     -X '${ProjectName}/version.Version=${Version}'     \
@@ -51,12 +51,13 @@ buildapp() {
     -X '${ProjectName}/version.GitCommit=${GitCommit}'       \
     -X '${ProjectName}/version.BuiltTime=${BuiltTime}'       \
     "                                           \
-    -o deployments/bin/${1}_${2}/${1}_${2} -tags ${1}_${2} ./cmd/${1}/
+    -i -o deployments/bin/${1}_${2}/${1}_${2} -tags ${1}_${2} ./cmd/${1}/
 }
 
 #全部build
 allbuild() {
     build srv user
+    build srv account
     build srv socket
     build api backend
     build api frontend

@@ -52,6 +52,16 @@ var Config = struct {
 		IdleConn int    `default:"4"`    //空闲连接
 		MaxConn  int    `default:"20"`   //最大连接
 	}
+	//mysql config
+	Postgres struct {
+		DbName   string `default:"test"`      //数据库名称
+		Addr     string `default:"127.0.0.1"` //地址
+		User     string `default:"postgres"`
+		Password string `default:"postgres"`
+		Port     int    `default:"5432"` //required:"true"
+		IdleConn int    `default:"4"`    //空闲连接
+		MaxConn  int    `default:"20"`   //最大连接
+	}
 	//redis config
 	Redis struct {
 		Addr     string `default:"127.0.0.1:6379"` //地址
@@ -74,7 +84,7 @@ var Config = struct {
 		Enable   string `default:"yes"` //是否启用:yes 启用 no 停用
 		Duration int    `default:"5"`   //单位秒
 		Url      string `default:"http://influxdb:8086"`
-		Database string `default:"test"`
+		Database string `default:"test01"`
 		UserName string `default:""`
 		Password string `default:""`
 	}
@@ -84,6 +94,13 @@ var Config = struct {
 		Port              string `default:":5001"`          //定义的端口
 		Address           string `default:"127.0.0.1:5001"` //访问地址
 		GateWayAddr       string `default:":9999"`          //网关端口
+		GateWaySwaggerDir string `default:"/swagger"`       // swagger目录
+	}
+	//accountservice
+	SrvAccount struct {
+		Port              string `default:":5003"`          //定义的端口
+		Address           string `default:"127.0.0.1:5003"` //访问地址
+		GateWayAddr       string `default:":9997"`          //网关端口
 		GateWaySwaggerDir string `default:"/swagger"`       // swagger目录
 	}
 	//api backend
@@ -123,7 +140,7 @@ func configInit(sn string) {
 var closeArgs []string
 
 //初始化选项
-//log:日志(必须) trace:链路跟踪 mysql:mysql数据库 mongo:MongoDB
+//log:日志(必须) trace:链路跟踪 mysql:mysql数据库 mongo:MongoDB postgres:postgres数据库
 func InitOption(sn string, args ...string) {
 	//开启pprof
 	go pprof.Run()
@@ -147,7 +164,10 @@ func InitOption(sn string, args ...string) {
 			KafkaInit()
 		case "metrics":
 			metricsInit(sn)
+		case "postgres":
+			pgInit()
 		}
+
 	}
 }
 
@@ -168,6 +188,8 @@ func Close() {
 		case "kafka":
 			KafkaClose()
 		case "metrics":
+		case "postgres":
+			pgClose()
 		}
 	}
 }

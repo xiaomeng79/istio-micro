@@ -1,0 +1,9 @@
+{
+  "project":"test",
+  "update":[
+    {"version":"0.0.1","author":"xiaomeng79","file":"./testdata/20190828_001.sql","date":"2019-08-27"},
+    {"version":"1.0.0","author":"xiaomeng79","file":"./testdata/20190828_002.sql","date":"2019-08-28"},
+    {"version":"0.1.2","author":"xiaomeng79","file":"./testdata/20190828_003.sql","date":"2019-08-28"},
+    {"version":"1.0.2","author":"xiaomeng79","file":"./testdata/20190828_004.sql","date":"2019-08-28"}
+  ]
+}

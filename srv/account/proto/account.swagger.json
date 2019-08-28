@@ -1,0 +1,205 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "账户",
+    "version": "1.0",
+    "contact": {
+      "name": "xiaomeng79",
+      "url": "https://github.com/xiaomeng79",
+      "email": "mengmeng79@yeah.net"
+    }
+  },
+  "host": "127.0.0.1:9997",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/account": {
+      "post": {
+        "summary": "账户添加",
+        "operationId": "AccountAdd",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/accountAccountBase"
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountAccountBase"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    },
+    "/account/{id}": {
+      "get": {
+        "summary": "账户查询一个",
+        "operationId": "AccountQueryOne",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/accountAccountBase"
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "账户id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      },
+      "put": {
+        "summary": "账户更新",
+        "operationId": "AccountUpdate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "403": {
+            "description": "没权限",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "账户id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/accountAccountUpdateReq"
+            }
+          }
+        ],
+        "tags": [
+          "AccountService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AccountBaseLevel": {
+      "type": "string",
+      "enum": [
+        "LevelDefault",
+        "LevelOne",
+        "LevelTwo",
+        "LevelThree"
+      ],
+      "default": "LevelDefault",
+      "title": "账户级别"
+    },
+    "AccountBaseStatus": {
+      "type": "string",
+      "enum": [
+        "StatusDefault",
+        "StatusNormal",
+        "StatusFrozen"
+      ],
+      "default": "StatusDefault",
+      "description": "- StatusNormal: 正常\n - StatusFrozen: 冻结",
+      "title": "账户状态"
+    },
+    "accountAccountBase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "账户id"
+        },
+        "user_id": {
+          "type": "string",
+          "format": "int64",
+          "title": "用户id"
+        },
+        "account_level": {
+          "$ref": "#/definitions/AccountBaseLevel",
+          "title": "账户级别"
+        },
+        "balance": {
+          "type": "number",
+          "format": "float",
+          "title": "余额"
+        },
+        "account_status": {
+          "$ref": "#/definitions/AccountBaseStatus",
+          "title": "账户状态"
+        }
+      },
+      "title": "账户基本信息"
+    },
+    "accountAccountUpdateReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "账户id",
+          "readOnly": true
+        },
+        "balance": {
+          "type": "number",
+          "format": "float",
+          "title": "账户余额"
+        }
+      },
+      "title": "账户更新请求"
+    }
+  },
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "name": "X-API-Key",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ]
+}

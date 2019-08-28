@@ -7,6 +7,7 @@ MAJOR="${VERSION%%.*}"; VERSION="${VERSION#*.}"
 MINOR="${VERSION%%.*}"; VERSION="${VERSION#*.}"
 PATCH="${VERSION%%.*}"; VERSION="${VERSION#*.}"
 
+echo "当前版本为:"$(git describe --abbrev=0 --tags)
 
 PATCH="$((PATCH+1))"
 
@@ -17,6 +18,8 @@ PATCH="$((PATCH+1))"
 #fi
 TAG="${MAJOR}.${MINOR}.${PATCH}"
 
-export Version=${TAG}
+echo "下一个版本为:" ${TAG}
 
-git tag -a  -m "Relase ${TAG}" "${TAG}"
+export Version=$(git describe --abbrev=0 --tags)
+#
+#git tag -a  -m "Relase ${TAG}" "${TAG}"

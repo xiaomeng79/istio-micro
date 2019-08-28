@@ -59,6 +59,19 @@ services:
     - ./config/mysql/:/docker-entrypoint-initdb.d/
     ports:
     - '3307:3306'
+  postgresdb:
+    image: 'postgres:11.4-alpine'
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: meng
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+    - postgres-data-account-istio:/var/lib/postgresql/data/pgdata
+    - ./config/postgres/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+    - ./config/postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+    - ./config/postgres/:/docker-entrypoint-initdb.d/
+    ports:
+    - '5432:5432'
   zookeeper:
     image: wurstmeister/zookeeper
     restart: always
@@ -96,8 +109,19 @@ services:
   #      - "8400:8400"
   #      - "8500:8500"
   #      - "8600:53/udp"
+
+
   influxdb:
     image: influxdb:1.5-alpine
+#    command:
+#      - /init-influxdb.sh
+    environment:
+      INFLUXDB_DB: test01
+#      INFLUXDB_ADMIN_ENABLED: !!bool true
+#      INFLUXDB_ADMIN_USER: test
+#      INFLUXDB_USER_PASSWORD: test
+#    volumes:
+#    - influxdb-local:/var/lib/influxdb
     ports:
     - "8086:8086"
   grafana:
@@ -151,6 +175,27 @@ services:
     ports:
     - "5001:5001"
     - "9998:9999"
+
+  #项目
+  srv_account:
+    build: ./bin/srv_account
+    restart: always
+    depends_on:
+    - postgresdb
+    - jaeger
+    - influxdb
+    environment:
+      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_POSTGRES_ADDR: postgresdb
+      CONFIGOR_POSTGRES_PORT: 5432
+      CONFIGOR_POSTGRES_DBNAME: test
+      CONFIGOR_POSTGRES_USER: postgres
+      CONFIGOR_POSTGRES_PASSWORD: meng
+      CONFIGOR_KAFKA_ADDRS: kafka:9092
+    ports:
+    - "5003:5003"
+    - "9997:9997"
+
   srv_socket:
     build: ./bin/srv_socket
     restart: always
@@ -190,3 +235,5 @@ services:
 volumes:
   mysql-data-user-istio:
   redis-data-user-istio:
+  postgres-data-account-istio:
+  influxdb-local:

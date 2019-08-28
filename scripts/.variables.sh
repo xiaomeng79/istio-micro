@@ -3,5 +3,5 @@
 set -eu
 
 ProjectName=${ProjectName:-"github.com/xiaomeng79/istio-micro"}
-Version=${Version:-"v1.0.1"}
+Version=${Version:-"unknow"}
 TARGET=${TARGET:-'main'}

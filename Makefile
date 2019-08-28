@@ -41,7 +41,7 @@ check :
 
 
 .PHONY : build
-build : proto dockerfile vendor builddata
+build : proto builddata dockerfile vendor
 	@echo "部分编译开始:"$(project)_$(type)
 	@chmod +x ./scripts/build.sh && ./scripts/build.sh build $(type) $(project)
 	@echo "部分编译结束"
@@ -49,7 +49,7 @@ build : proto dockerfile vendor builddata
 
 
 .PHONY : allbuild
-allbuild : proto alldockerfile vendor builddata
+allbuild : proto builddata alldockerfile vendor
 
 	@echo "全部编译开始"
 	@chmod +x ./scripts/build.sh && ./scripts/build.sh allbuild
@@ -126,6 +126,10 @@ clean :
 #发行版本
 release :
 	@chmod +x ./scripts/release.sh && ./scripts/release.sh
+
+#查看下一个版本号
+next-version :
+	@chmod +x ./scripts/version.sh && ./scripts/version.sh
 
 #清理没用的docker镜像
 docker-clean:
