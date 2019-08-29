@@ -2,7 +2,7 @@
 -- 创建账户表
 SET client_encoding = 'UTF8';
 
-CREATE TABLE public.account (
+CREATE TABLE IF NOT EXISTS  public.account (
     id serial PRIMARY KEY NOT NULL,
     user_id integer DEFAULT 0 NOT NULL,
     account_level smallint DEFAULT 0 NOT NULL,
