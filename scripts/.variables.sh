@@ -19,10 +19,10 @@ cloc_version=${cloc_version:-"1.76"}
 cmd_path=${cmd_path:-"${GOPATH}/bin"}
 
 #将环境变量存入本地环境配置
-echo "GOPROXY=${GOPROXY}" >>${HOME}/.bashrc
-echo "protoc_include_path=${protoc_include_path}" >>${HOME}/.bashrc
-echo "GO111MODULE=${GO111MODULE}" >>${HOME}/.bashrc
-echo "GOPATH=${GOPATH}" >>${HOME}/.bashrc
-echo "PATH=${soft_dir}/go/bin:${GOPATH}/bin:${PATH}" >>${HOME}/.bashrc
+echo "GOPROXY=${GOPROXY}" >>${HOME}/.profile
+echo "protoc_include_path=${protoc_include_path}" >>${HOME}/.profile
+echo "GO111MODULE=${GO111MODULE}" >>${HOME}/.profile
+echo "GOPATH=${GOPATH}" >>${HOME}/.profile
+echo "PATH=${soft_dir}/go/bin:${GOPATH}/bin:${PATH}" >>${HOME}/.profile
 
-source ${HOME}/.bashrc
+source ${HOME}/.profile
