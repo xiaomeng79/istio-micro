@@ -4,6 +4,8 @@ set -eu
 
 source scripts/.variables.sh
 
+#protoc_include_path=${protoc_include_path:-""}
+
 proto() {
     proto_path=`pwd`/pkg/proto
     dirname=./srv/$1/proto
@@ -17,7 +19,7 @@ proto() {
 		        protoc -I. \
                 -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
                 -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway \
-                --proto_path=${proto_include_path} \
+                --proto_path=${protoc_include_path} \
                 --grpc-gateway_out=. \
                 --swagger_out=$swagger_dir \
                 --swagger_out=. \

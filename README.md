@@ -42,8 +42,10 @@
 
 1. 安装依赖
 
-- 依赖安装
+- 系统依赖安装
     1. git >= 2.17
+    2. wget
+    3. make
     
 - 可选部署安装(**任何一种都可以,也可直接部署二进制文件**)
     1. docker >= 1.13.1
@@ -55,21 +57,21 @@
 ```bash
 git clone https://github.com/xiaomeng79/istio-micro.git
 ```
-3. 安装运行工具
+3. 安装运行环境
 ```bash
-make install
+cd istio-micro && sudo make install
 ```
 
 4. 编译代码
 
-```go
-make allbuild
+```bash
+sudo make allbuild
 ```
 
 5. 运行代码
 
-```go
-make compose up
+```bash
+sudo make compose up
 ```
 
 

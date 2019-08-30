@@ -8,9 +8,9 @@ GOPROXY=${GOPROXY:-"https://goproxy.io"}
 soft_dir=${HOME:-"/tmp"}
 go_version=${go_version:-"1.11"}
 protoc_version=${protoc_version:-"3.6.1"}
-protoc_include_path=${protoc_include_path:-"protoc-${protoc_version}-osx-x86_64/include"}
+protoc_include_path=${protoc_include_path:-"${soft_dir}/protoc-${protoc_version}-osx-x86_64/include"}
 cloc_version=${cloc_version:-"1.76"}
-cmd_path=${cmd_path:-"/usr/bin"}
+cmd_path=${cmd_path:-"${GOPATH}/bin"}
 GOPATH=${GOPATH:-${HOME}"/go_path"}
 
 
@@ -21,9 +21,6 @@ go_install(){
 		mkdir -p ${soft_dir} && cd ${soft_dir} && \
 		wget -c https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz && \
 		tar -xzvf go${go_version}.linux-amd64.tar.gz && \
-		ln -s ${soft_dir}/go/bin/go ${cmd_path}/go && \
-		ln -s ${soft_dir}/go/bin/gofmt ${cmd_path}/gofmt && \
-		ln -s ${soft_dir}/go/bin/godoc ${cmd_path}/godoc && \
 		go version `
 }
 
@@ -35,75 +32,42 @@ cloc_install(){
 		mkdir -p ${soft_dir} && cd  ${soft_dir} && \
 		wget -c https://github.com/AlDanial/cloc/archive/v${cloc_version}.zip && \
 		unzip v${cloc_version}.zip && \
-		ln -s ${soft_dir}/cloc-${cloc_version}/cloc ${cmd_path}/cloc && \
+		cp ${soft_dir}/cloc-${cloc_version}/cloc ${cmd_path}/cloc || { echo "cloc文件已经存在"; } && \
 		echo "cloc 的版本是:" && cloc --version `
 
 }
 
-proto_install(){
+protoc_install(){
+    hash protoc 2>/dev/null || `
     	echo "安装protobuf工具 " && \
 		mkdir -p ${soft_dir} && cd  ${soft_dir} && \
-		wget -c https://github.com/protocolbuffers/protobuf/releases/download/v${protoc_version}/protoc-${protoc_version}-osx-x86_64.zip && \
-		unzip protoc-${protoc_version}-osx-x86_64.zip && \
-		ln -s ${soft_dir}/protoc-3.9.1-osx-x86_64/bin/protoc ${cmd_path}/protoc && \
-		echo "protoc 的版本是:" && protoc --version `
+		wget -c https://github.com/protocolbuffers/protobuf/releases/download/v${protoc_version}/protoc-${protoc_version}-linux-x86_64.zip && \
+		unzip protoc-${protoc_version}-linux-x86_64.zip -d ./protoc-${protoc_version}-linux-x86_64 && \
+		mv ${soft_dir}/protoc-${protoc_version}-linux-x86_64/bin/protoc ${cmd_path} || { echo "protoc文件已经存在"; } && \
+		echo "protoc 的版本是:" && ${cmd_path}/protoc --version`
 }
 
 go_plug(){
-		echo "安装 protobuf golang插件 protoc-gen-go"
-		go get -u github.com/golang/protobuf/proto
-		go get -u github.com/golang/protobuf/protoc-gen-go
-		go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-		go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+        cd ${GOPATH}
+		echo "安装 protobuf golang插件 protoc-gen-go protoc-gen-grpc-gateway protoc-gen-swagger protoc-go-inject-tag"
+		echo "大概耗时30分钟"
+		go get  github.com/golang/protobuf/proto
+		go get  github.com/golang/protobuf/protoc-gen-go
+		go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+		go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+		go get  github.com/favadi/protoc-go-inject-tag
 		echo "安装gocyclo圈复杂度计算工具"
-		go get -u github.com/fzipp/gocyclo
+		go get  github.com/fzipp/gocyclo
+		echo "安装打包静态文件工具"
+		go get  github.com/rakyll/statik
 		echo "安装go-torch"
 		go get github.com/uber/go-torch
 		cd ${GOPATH}/src/github.com/uber/go-torch
-		git clone https://github.com/brendangregg/FlameGraph.git
-		echo "安装打包静态文件工具"
-		go get -u github.com/rakyll/statik
+		`git clone https://github.com/brendangregg/FlameGraph.git` || { echo "FlameGraph已经存在"; }
 }
 
 
 go_install
 cloc_install
-proto_install
+protoc_install
 go_plug
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#protoc
-#protoc_install(){
-#	hash protoc2 2>/dev/null || `
-#		echo "安装protobuf 代码生成工具 protoc" && \
-#		mkdir -p {soft_dir} && cd  {soft_dir} && \
-#		wget -c https://github.com/google/protobuf/releases/download/v${protoc_version}/protobuf-cpp-${protoc_version}.tar.gz && \
-#		tar -xzvf protobuf-cpp-${protoc_version}.tar.gz && \
-#		cd protobuf-${protoc_version} && \
-#		./configure --prefix=${soft_dir}/protobuf && \
-#		make -j8 && \
-#		make install && \
-#		ln -s ${soft_dir}/protobuf/bin/protoc ${cmd_path}/protoc && \
-#		protoc --version`
-#
-#	hash protoc-gen-go 2>/dev/null || `
-#		echo "安装 protobuf golang 插件 protoc-gen-go" && \
-#		go get -u github.com/golang/protobuf/proto&& \
-#		go get -u github.com/golang/protobuf/protoc-gen-go `
-#
-#}
