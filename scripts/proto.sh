@@ -1,7 +1,11 @@
 #!/bin/bash
 
+set -eu
+
+source scripts/.variables.sh
 
 proto() {
+    proto_path=`pwd`/pkg/proto
     dirname=./srv/$1/proto
     swagger_dir=./deployments/config/swagger
     if [ ! -d $swagger_dir ];then
@@ -13,6 +17,7 @@ proto() {
 		        protoc -I. \
                 -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
                 -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway \
+                --proto_path=${proto_include_path} \
                 --grpc-gateway_out=. \
                 --swagger_out=$swagger_dir \
                 --swagger_out=. \

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source scripts/.variables.sh
+
 cloc_test(){
         cd `pwd` && \
         echo "圈复杂度检查前20:" && \

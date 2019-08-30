@@ -40,37 +40,33 @@
 
 ### 安装流程
 
+1. 安装依赖
+
 - 依赖安装
+    1. git >= 2.17
+    
+- 可选部署安装(**任何一种都可以,也可直接部署二进制文件**)
+    1. docker >= 1.13.1
+    2. docker-compose >=1.19
+    3. k8s >=1.12
+    4. istio >=1.1
 
-go >=1.11
-docker-compose >=1.19
-
-```go
-		go get -u github.com/golang/protobuf/proto
-		go get -u github.com/golang/protobuf/protoc-gen-go
-		go get -u github.com/rakyll/statik
+2. 克隆项目
+```bash
+git clone https://github.com/xiaomeng79/istio-micro.git
+```
+3. 安装运行工具
+```bash
+make install
 ```
 
-- 可选安装
-
-istio >=1.1
-k8s >=1.12
-
-
-- 下载代码
-
-```go
-https://github.com/xiaomeng79/istio-micro.git
-
-```
-
-- 编译代码
+4. 编译代码
 
 ```go
 make allbuild
 ```
 
-- 运行代码
+5. 运行代码
 
 ```go
 make compose up
@@ -208,10 +204,6 @@ kill -12 3125 //关闭代码性能分析
 
 #### 生成文档(swagger)
 ```bash
-# 安装grpc-gateway
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-# 安装文档生成
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 # 生成网关和文档
 make proto
 # 本地文档地址(istio-micro/deployments/config/swagger/srv/user/proto/user.swagger.json)

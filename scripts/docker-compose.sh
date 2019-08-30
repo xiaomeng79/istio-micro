@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -e
+set -eu
+
+source scripts/.variables.sh
 
 #docker-compose 命令
 case $1 in

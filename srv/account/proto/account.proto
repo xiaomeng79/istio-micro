@@ -5,7 +5,7 @@ package account;
 // 参考:https://github.com/chai2010/advanced-go-programming-book/blob/master/ch4-rpc/ch4-06-grpc-ext.md
 // 参考:https://github.com/grpc-ecosystem/grpc-gateway/tree/master/examples/proto/examplepb
 
-import "google/api/annotations.proto";
+import "pkg/proto/google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 

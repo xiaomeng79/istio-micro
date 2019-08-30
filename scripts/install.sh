@@ -1,14 +1,18 @@
 #!/bin/bash
+set -eu
+
+source scripts/.variables.sh
 
 #定义变量
-GOPROXY=https://goproxy.io
-soft_dir=/tmp
-go_version=1.11
-protoc_version=3.6.1
-cloc_version=1.76
-cmd_path=/usr/bin
+GOPROXY=${GOPROXY:-"https://goproxy.io"}
+soft_dir=${HOME:-"/tmp"}
+go_version=${go_version:-"1.11"}
+protoc_version=${protoc_version:-"3.6.1"}
+protoc_include_path=${protoc_include_path:-"protoc-${protoc_version}-osx-x86_64/include"}
+cloc_version=${cloc_version:-"1.76"}
+cmd_path=${cmd_path:-"/usr/bin"}
+GOPATH=${GOPATH:-${HOME}"/go_path"}
 
-set -e
 
 #go
 go_install(){
@@ -36,10 +40,21 @@ cloc_install(){
 
 }
 
+proto_install(){
+    	echo "安装protobuf工具 " && \
+		mkdir -p ${soft_dir} && cd  ${soft_dir} && \
+		wget -c https://github.com/protocolbuffers/protobuf/releases/download/v${protoc_version}/protoc-${protoc_version}-osx-x86_64.zip && \
+		unzip protoc-${protoc_version}-osx-x86_64.zip && \
+		ln -s ${soft_dir}/protoc-3.9.1-osx-x86_64/bin/protoc ${cmd_path}/protoc && \
+		echo "protoc 的版本是:" && protoc --version `
+}
+
 go_plug(){
 		echo "安装 protobuf golang插件 protoc-gen-go"
 		go get -u github.com/golang/protobuf/proto
 		go get -u github.com/golang/protobuf/protoc-gen-go
+		go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+		go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 		echo "安装gocyclo圈复杂度计算工具"
 		go get -u github.com/fzipp/gocyclo
 		echo "安装go-torch"
@@ -51,6 +66,10 @@ go_plug(){
 }
 
 
+go_install
+cloc_install
+proto_install
+go_plug
 
 
 

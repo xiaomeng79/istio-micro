@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -e
+set -eu
+
+source scripts/.variables.sh
 
 #生成dockerfile
 gen(){

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -e
+set -eu
+
+source scripts/.variables.sh
 
 #go-bindata -o data/bindata.go -pkg data data/*.json
 
