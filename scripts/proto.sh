@@ -7,6 +7,7 @@ source scripts/.variables.sh
 #protoc_include_path=${protoc_include_path:-""}
 
 proto() {
+    echo "protoc include 路径为:${protoc_include_path}"
     proto_path=`pwd`/pkg/proto
     dirname=./srv/$1/proto
     swagger_dir=./deployments/config/swagger

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -ux
 
 source scripts/.variables.sh
 
@@ -10,8 +10,8 @@ go_version=${go_version:-"1.11"}
 protoc_version=${protoc_version:-"3.6.1"}
 protoc_include_path=${protoc_include_path:-"${soft_dir}/protoc-${protoc_version}-osx-x86_64/include"}
 cloc_version=${cloc_version:-"1.76"}
-cmd_path=${cmd_path:-"${GOPATH}/bin"}
 GOPATH=${GOPATH:-${HOME}"/go_path"}
+cmd_path=${cmd_path:-"${GOPATH}/bin"}
 
 
 #go
@@ -43,7 +43,8 @@ protoc_install(){
 		mkdir -p ${soft_dir} && cd  ${soft_dir} && \
 		wget -c https://github.com/protocolbuffers/protobuf/releases/download/v${protoc_version}/protoc-${protoc_version}-linux-x86_64.zip && \
 		unzip protoc-${protoc_version}-linux-x86_64.zip -d ./protoc-${protoc_version}-linux-x86_64 && \
-		mv ${soft_dir}/protoc-${protoc_version}-linux-x86_64/bin/protoc ${cmd_path} || { echo "protoc文件已经存在"; } && \
+		mv ${soft_dir}/protoc-${protoc_version}-linux-x86_64/bin/protoc ${cmd_path} && \
+		echo "路径为:"${cmd_path} && \
 		echo "protoc 的版本是:" && ${cmd_path}/protoc --version`
 }
 
@@ -52,9 +53,9 @@ go_plug(){
 		echo "安装 protobuf golang插件 protoc-gen-go protoc-gen-grpc-gateway protoc-gen-swagger protoc-go-inject-tag"
 		echo "大概耗时30分钟"
 		go get  github.com/golang/protobuf/proto
-		go get  github.com/golang/protobuf/protoc-gen-go
-		go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-		go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+		go get  -u github.com/golang/protobuf/protoc-gen-go
+		go get  -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+		go get  -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 		go get  github.com/favadi/protoc-go-inject-tag
 		echo "安装gocyclo圈复杂度计算工具"
 		go get  github.com/fzipp/gocyclo

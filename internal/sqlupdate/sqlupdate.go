@@ -46,7 +46,7 @@ func (s *SqlUpdate) decode(filename string) error {
 func (s *SqlUpdate) compareResult(lastVersion, currentVersion string) []UpdateRecord {
 	res := make([]UpdateRecord, 0)
 	for _, u := range s.Update {
-		if compare(lastVersion, u.Version) && compare(u.Version, currentVersion) {
+		if compare(lastVersion, u.Version) && compare(u.Version, currentVersion)  {
 			res = append(res, u)
 		}
 	}
@@ -56,7 +56,7 @@ func (s *SqlUpdate) compareResult(lastVersion, currentVersion string) []UpdateRe
 // 比较获取需要更新的版本
 // 判断旧版本是否大于要比较版本,true:小于等于(需要更新) false:大于(不需要更新)
 func compare(ov, cv string) bool {
-	return ov <= cv
+	return ov < cv
 }
 
 // 返回需要执行的sql
