@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ux
+set -uxe
 
 source scripts/.variables.sh
 
@@ -13,6 +13,8 @@ cloc_version=${cloc_version:-"1.76"}
 GOPATH=${GOPATH:-${HOME}"/go_path"}
 cmd_path=${cmd_path:-"${GOPATH}/bin"}
 
+mkdir -p ${GOPATH}/bin
+mkdir -p ${GOPATH}/src
 
 #go
 go_install(){
@@ -46,6 +48,7 @@ protoc_install(){
 
 go_plug(){
         cd ${GOPATH}
+        echo "GOPATH为:"${GOPATH}
 		echo "安装 protobuf golang插件 protoc-gen-go protoc-gen-grpc-gateway protoc-gen-swagger protoc-go-inject-tag"
 		echo "大概耗时30分钟"
 		go get  github.com/golang/protobuf/proto
