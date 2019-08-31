@@ -49,6 +49,10 @@
     4. unzip
     5. tar
     
+```bash
+apt-get install git wget make unzip tar -y
+```
+    
 - 可选部署安装(**任何一种都可以,也可直接部署二进制文件**)
     1. docker >= 1.13.1
     2. docker-compose >=1.19

@@ -13,9 +13,6 @@ cloc_version=${cloc_version:-"1.76"}
 GOPATH=${GOPATH:-${HOME}"/go_path"}
 cmd_path=${cmd_path:-"${GOPATH}/bin"}
 
-mkdir -p ${GOPATH}/bin
-mkdir -p ${GOPATH}/src
-
 #go
 go_install(){
 		echo "安装golang环境 go"${go_version} && \
@@ -47,22 +44,22 @@ protoc_install(){
 }
 
 go_plug(){
-        cd ${GOPATH}
-        echo "GOPATH为:"${GOPATH}
-		echo "安装 protobuf golang插件 protoc-gen-go protoc-gen-grpc-gateway protoc-gen-swagger protoc-go-inject-tag"
-		echo "大概耗时30分钟"
-		go get  github.com/golang/protobuf/proto
-		go get   github.com/golang/protobuf/protoc-gen-go
-		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
-		go get  github.com/favadi/protoc-go-inject-tag
-		echo "安装gocyclo圈复杂度计算工具"
-		go get  github.com/fzipp/gocyclo
-		echo "安装打包静态文件工具"
-		go get  github.com/rakyll/statik
-		echo "安装go-torch"
-		go get github.com/uber/go-torch
-		cd ${GOPATH}/src/github.com/uber/go-torch
+        cd ${GOPATH} && export GOPROXY=https://goproxy.io && GO111MODULE=off && \
+        echo "GOPATH为:"${GOPATH} && \
+		echo "安装 protobuf golang插件 protoc-gen-go protoc-gen-grpc-gateway protoc-gen-swagger protoc-go-inject-tag" && \
+		echo "大概耗时30分钟" && \
+		go get  github.com/golang/protobuf/proto && \
+		go get   github.com/golang/protobuf/protoc-gen-go && \
+		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway && \
+		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger && \
+		go get  github.com/favadi/protoc-go-inject-tag && \
+		echo "安装gocyclo圈复杂度计算工具" && \
+		go get  github.com/fzipp/gocyclo && \
+		echo "安装打包静态文件工具" && \
+		go get  github.com/rakyll/statik && \
+		echo "安装go-torch" && \
+		go get github.com/uber/go-torch && \
+		cd ${GOPATH}/src/github.com/uber/go-torch && \
 		`git clone https://github.com/brendangregg/FlameGraph.git` || { echo "FlameGraph已经存在"; }
 }
 
