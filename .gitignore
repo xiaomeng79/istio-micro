@@ -45,3 +45,5 @@ deployments/bin
 vendor
 check.log
 *.pid
+
+*/myvariables.sh

@@ -2,6 +2,10 @@
 
 #set -u
 
+#获取用户自定义变量(myvariables.sh)
+if [ -f "scripts/myvariables.sh" ];then
+    source scripts/myvariables.sh
+fi
 #项目相关的
 ProjectName=${ProjectName:-"github.com/xiaomeng79/istio-micro"}
 Version=${Version:-"unknow"}
@@ -12,7 +16,7 @@ GOPROXY=${GOPROXY:-"https://goproxy.io"}
 #go mod是否开启
 GO111MODULE=${GO111MODULE:-"auto"}
 #GOPATH的路径
-GOPATH="/com_go"
+GOPATH=${GOPATH:-${HOME}"/com_go"}
 #其他软件的安装目录
 soft_dir=${soft_dir:-${HOME}}
 #go安装的版本
@@ -26,7 +30,8 @@ cloc_version=${cloc_version:-"1.76"}
 #执行文件路径
 cmd_path=${cmd_path:-"${GOPATH}/bin"}
 
-mkdir -p ${GOPATH/{bin,src}
+mkdir -p ${GOPATH}/bin
+mkdir -p ${GOPATH}/src
 
 #将环境变量存入本地环境配置
 echo "GOPROXY=${GOPROXY}" >>${HOME}/.profile

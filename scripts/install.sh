@@ -1,7 +1,7 @@
 #!/bin/bash
-set -uxe
 
 source scripts/.variables.sh
+set -uxe
 
 #定义变量
 GOPROXY=${GOPROXY:-"https://goproxy.io"}
@@ -29,7 +29,7 @@ cloc_install(){
 		mkdir -p ${soft_dir} && cd  ${soft_dir} && \
 		wget -c https://github.com/AlDanial/cloc/archive/v${cloc_version}.zip && \
 		unzip v${cloc_version}.zip && \
-		cp ${soft_dir}/cloc-${cloc_version}/cloc ${cmd_path}/cloc || { echo "cloc文件已经存在"; } && \
+		mv ${soft_dir}/cloc-${cloc_version}/cloc ${cmd_path} || { echo "cloc文件已经存在"; } && \
 		echo "cloc 的版本是:" && cloc --version
 
 }
@@ -44,11 +44,14 @@ protoc_install(){
 }
 
 go_plug(){
-        cd ${GOPATH} && export GOPROXY=https://goproxy.io && GO111MODULE=off && \
+        cd ${GOPATH} && export GOPROXY=https://goproxy.io && export GO111MODULE=off  && export GOPATH=${GOPATH} && \
         echo "GOPATH为:"${GOPATH} && \
 		echo "安装 protobuf golang插件 protoc-gen-go protoc-gen-grpc-gateway protoc-gen-swagger protoc-go-inject-tag" && \
 		echo "大概耗时30分钟" && \
-		go get  github.com/golang/protobuf/proto && \
+		mkdir -p ${GOPATH}/src/golang && cd ${GOPATH}/src/golang && git clone https://github.com/golang/protobuf.git --depth 1
+		mkdir -p ${GOPATH}/src/google.golang.org && cd ${GOPATH}/src/google.golang.org && \
+		git clone https://github.com/google/go-genproto.git --depth 1  && mv  go-genproto/ genproto/ && \
+		cd ${GOPATH} && \
 		go get   github.com/golang/protobuf/protoc-gen-go && \
 		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway && \
 		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger && \
