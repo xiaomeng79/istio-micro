@@ -46,6 +46,8 @@
     1. git >= 2.17
     2. wget
     3. make
+    4. unzip
+    5. tar
     
 - 可选部署安装(**任何一种都可以,也可直接部署二进制文件**)
     1. docker >= 1.13.1
@@ -57,9 +59,11 @@
 ```bash
 git clone https://github.com/xiaomeng79/istio-micro.git
 ```
+
+3. 
 3. 安装运行环境
 ```bash
-cd istio-micro && sudo make install
+cd istio-micro && make ver && make install
 ```
 
 4. 编译代码

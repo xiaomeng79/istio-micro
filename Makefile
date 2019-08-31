@@ -8,6 +8,14 @@ COMMIT=$(shell git rev-parse --short HEAD)
 #project:game prize pusher socket
 #type:api srv web
 
+.PHONY : ver
+ver :
+
+	@echo "执行环境变量"
+	@chmod +x ./scripts/.variables.sh && ./scripts/.variables.sh
+	@echo "完成环境变量"
+
+
 .PHONY : install
 install :
 

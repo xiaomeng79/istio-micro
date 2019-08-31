@@ -9,13 +9,21 @@ TARGET=${TARGET:-'main'}
 
 #执行环境
 GOPROXY=${GOPROXY:-"https://goproxy.io"}
+#go mod是否开启
 GO111MODULE=${GO111MODULE:-"auto"}
+#GOPATH的路径
 GOPATH=${GOPATH:-${HOME}/"go_path"}
+#其他软件的安装目录
 soft_dir=${soft_dir:-${HOME}}
+#go安装的版本
 go_version=${go_version:-"1.12.9"}
+#protoc的版本
 protoc_version=${protoc_version:-"3.6.1"}
+#protoc引用的路径
 protoc_include_path=${protoc_include_path:-"${soft_dir}/protoc-${protoc_version}-linux-x86_64/include"}
+#cloc版本
 cloc_version=${cloc_version:-"1.76"}
+#执行文件路径
 cmd_path=${cmd_path:-"${GOPATH}/bin"}
 
 #将环境变量存入本地环境配置
@@ -25,4 +33,5 @@ echo "GO111MODULE=${GO111MODULE}" >>${HOME}/.profile
 echo "GOPATH=${GOPATH}" >>${HOME}/.profile
 echo "PATH=${soft_dir}/go/bin:${GOPATH}/bin:${PATH}" >>${HOME}/.profile
 
-source ${HOME}/.profile
+#手动执行
+#source ~/.profile
