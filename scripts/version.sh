@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -x
 
 VERSION="$(git describe --abbrev=0 --tags)"
 VERSION=${VERSION:-'0.0.0'}

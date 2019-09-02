@@ -21,9 +21,17 @@ if [ -d $swagger ];then
 cp -r $swagger/ $filename
 fi
 
+#添加本地时区
+#RUN set -xe && apk add --no-cache tzdata && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 cat>$filename/Dockerfile<<EOF
 FROM alpine:3.2
-RUN set -xe && apk add --no-cache tzdata && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN  echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/main' > /etc/apk/repositories \
+    && echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/community' >>/etc/apk/repositories \
+&& apk update && apk add tzdata \
+&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+&& echo "Asia/Shanghai" > /etc/timezone
+
 ADD $pname /$pname
 ADD proto/ /swagger
 ADD sqlupdate/ /sqlupdate

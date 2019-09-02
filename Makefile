@@ -101,7 +101,6 @@ alldockerfile :
 #compose命令 bin:up dup stop restart kill rm ps
 .PHONY : compose
 compose :
-
 	@chmod +x ./scripts/docker-compose.sh && ./scripts/docker-compose.sh $(bin)
 
 .PHONY : builddata

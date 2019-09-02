@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -x
 
 source scripts/.variables.sh
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -eux
 
 source scripts/version.sh
 source scripts/.variables.sh
