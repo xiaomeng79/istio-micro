@@ -172,6 +172,7 @@ services:
       CONFIGOR_REDIS_ADDR: redis:6379
       CONFIGOR_REDIS_PASSWORD:
       CONFIGOR_KAFKA_ADDRS: kafka:9092
+      CONFIGOR_LOG_PATH: /tmp/srv/test
     ports:
     - "5001:5001"
     - "9998:9999"

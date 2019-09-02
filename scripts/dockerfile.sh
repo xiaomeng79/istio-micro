@@ -25,7 +25,7 @@ fi
 #RUN set -xe && apk add --no-cache tzdata && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 cat>$filename/Dockerfile<<EOF
-FROM alpine:3.2
+FROM alpine:3.5
 RUN  echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/main' > /etc/apk/repositories \
     && echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/community' >>/etc/apk/repositories \
 && apk update && apk add tzdata \

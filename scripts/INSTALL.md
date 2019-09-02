@@ -1,34 +1,46 @@
-## 安装依赖
+## 手动安装
 
-#### 配置环境变量
+1. 安装主要程序
+- [go](https://studygolang.com/dl) >= 1.11 go
+- [cloc](https://github.com/AlDanial/cloc) >=1.76  代码统计
+- [protoc](https://github.com/protocolbuffers/protobuf) >= 3.6.1 proto buffer
 
-GOPROXY=${GOPROXY:-"https://goproxy.io"}
-GO111MODULE=${GO111MODULE:-"auto"}
-GOPATH=${GOPATH:-${HOME}/"go_path"}
-soft_dir=${soft_dir:-${HOME}}
-go_version=${go_version:-"1.12.9"}
-protoc_version=${protoc_version:-"3.6.1"}
-protoc_include_path=${protoc_include_path:-"${soft_dir}/protoc-${protoc_version}-linux-x86_64/include"}
-cloc_version=${cloc_version:-"1.76"}
-cmd_path=${cmd_path:-"${GOPATH}/bin"}
+**注意:安装完protoc后,需要将protoc下的include目录配置到环境变量,如下**
 
 ```bash
-echo "GOPROXY=https://goproxy.io" >>${HOME}/.profile
-echo "protoc_include_path=${HOME}/protoc/include" >>${HOME}/.profile
-echo "GO111MODULE=auto" >>${HOME}/.profile
-echo "GOPATH=${HOME}/go_path" >>${HOME}/.profile
-echo "PATH=${soft_dir}/go/bin:${GOPATH}/bin:${PATH}" >>${HOME}/.profile
+echo protoc_include_path=你的protoc地址 >> ~/.profile
 ```
 
-#### 安装系统依赖
+2. 定义GOPATH并设置go的环境变量
 ```bash
-    1. git >= 2.17
-    2. wget
-    3. make
-    4. unzip
-    5. tar
+#新建GOPATH并切换到GOPATH
+cd ${GOPATH} 
+export GOPATH=你的GOPATH路径 
+#如果不能访问外网设置代理
+export GOPROXY=https://goproxy.io 
+#关闭go mod (这样可以将文件安装到GOPATH)
+export GO111MODULE=auto  
+#将GOPATH下的bin目录放到PATH环境变量下
+export PATH=$GOPATH/bin:$PATH
+#将以上环境变量配置到~/.profile并执行
+source ~/.profile
+
 ```
-#### 安装go程序
+
+3. 安装go的依赖包
 ```bash
+go get  github.com/golang/protobuf/protoc-gen-go
+go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+go get  github.com/favadi/protoc-go-inject-tag 
+go get  github.com/fzipp/gocyclo 
+go get  github.com/rakyll/statik
+```
+4. 切换到istio-micro目录执行
+```bash
+#编译全部
+make allbuild
+#启动
+make compose
 
 ```

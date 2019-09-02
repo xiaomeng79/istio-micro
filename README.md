@@ -50,6 +50,7 @@
     5. tar
     
 ```bash
+#ubuntu系统安装
 apt-get install git wget make unzip tar -y
 ```
     
@@ -64,13 +65,12 @@ apt-get install git wget make unzip tar -y
 git clone https://github.com/xiaomeng79/istio-micro.git
 ```
 
-3. 
 3. 安装运行环境
 ```bash
 cd istio-micro 
- make ver
- source ~/.profile 
- make install
+make ver
+source ~/.profile 
+make install
 ```
 
 4. 编译代码
@@ -82,7 +82,7 @@ sudo make allbuild
 5. 运行代码
 
 ```bash
-sudo make compose up
+sudo make compose 
 ```
 
 **可在scripts下新建安装环境变量配置文件(myvariables.sh)**
@@ -112,6 +112,9 @@ cloc_version=${cloc_version:-"1.76"}
 cmd_path=${cmd_path:-"${GOPATH}/bin"}
 ```
 
+#### 自动化安装不成功,可以选择手动安装
+
+[手动安装教程](./scripts/INSTALL.md)
 
 #### 测试
 
@@ -245,6 +248,11 @@ kill -12 3125 //关闭代码性能分析
 #### 生成文档(swagger)
 ```bash
 # 生成网关和文档
+#需要已经安装过以下依赖(切换到GOPATH)
+go get  github.com/golang/protobuf/protoc-gen-go
+go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+#安装依赖后执行
 make proto
 # 本地文档地址(istio-micro/deployments/config/swagger/srv/user/proto/user.swagger.json)
 # 在线文档地址(http://127.0.0.1:9998/swagger/user.swagger.json)
