@@ -145,6 +145,11 @@ release :
 next-version :
 	@chmod +x ./scripts/version.sh && ./scripts/version.sh
 
+#使用godoc生成markdown文档
+gendoc :
+	 godoc2ghmd `pwd`/srv/account/ > `pwd`/docs/godoc2md/account.md
+	 godoc2ghmd `pwd`/srv/user/ > `pwd`/docs/godoc2md/user.md
+
 #清理没用的docker镜像
 docker-clean:
 	docker images
