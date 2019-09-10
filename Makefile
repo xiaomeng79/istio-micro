@@ -145,7 +145,7 @@ release :
 next-version :
 	@chmod +x ./scripts/version.sh && ./scripts/version.sh
 
-#使用godoc生成markdown文档
+#使用godoc生成markdown文档[godoc2ghmd](https://github.com/GandalfUK/godoc2ghmd)
 gendoc :
 	 godoc2ghmd `pwd`/srv/account/ > `pwd`/docs/godoc2md/account.md
 	 godoc2ghmd `pwd`/srv/user/ > `pwd`/docs/godoc2md/user.md

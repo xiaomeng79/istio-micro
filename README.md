@@ -67,7 +67,7 @@ git clone https://github.com/xiaomeng79/istio-micro.git
 
 3. 安装运行环境
 ```bash
-cd istio-micro 
+cd istio-micro && git pull --all
 make ver
 source ~/.profile 
 make install

@@ -124,7 +124,6 @@ func (m *Account) Update(ctx context.Context) error {
 //}
 //
 
-
 // 查询一个
 func (m *Account) QueryOne(ctx context.Context) error {
 	err := utils.V(m.validateId)
@@ -195,6 +194,3 @@ func (m *Account) QueryOne(ctx context.Context) error {
 //	}
 //	return all, m.Page, err
 //}
-
-
-

@@ -46,7 +46,7 @@ func (s *SqlUpdate) decode(filename string) error {
 func (s *SqlUpdate) compareResult(lastVersion, currentVersion string) []UpdateRecord {
 	res := make([]UpdateRecord, 0)
 	for _, u := range s.Update {
-		if compare(lastVersion, u.Version) && compare(u.Version, currentVersion)  {
+		if compare(lastVersion, u.Version) && compare(u.Version, currentVersion) {
 			res = append(res, u)
 		}
 	}
