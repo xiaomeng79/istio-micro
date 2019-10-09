@@ -166,3 +166,7 @@ docker-kill:
 docker-remove:
 	docker rm --force `docker ps -a -q` || true
 	docker rmi --force `docker images -q` || true
+
+# 使用goreleaser编译项目
+release:
+	goreleaser --snapshot --skip-publish --rm-dist
