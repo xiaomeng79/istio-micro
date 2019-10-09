@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source scripts/.variables.sh
-set -uxe
+set -xe
 
 #定义变量
 GOPROXY=${GOPROXY:-"https://goproxy.io"}

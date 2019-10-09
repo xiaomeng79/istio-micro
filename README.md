@@ -1,5 +1,5 @@
 ## istio-micro
-[![Build Status](https://travis-ci.org/xiaomeng79/istio-micro.svg?branch=master)](https://travis-ci.org/xiaomeng79/istio-micro) [![codecov](https://codecov.io/gh/xiaomeng79/istio-micro/branch/master/graph/badge.svg)](https://codecov.io/gh/xiaomeng79/istio-micro)
+[![Build Status](https://travis-ci.org/xiaomeng79/istio-micro.svg?branch=master)](https://travis-ci.org/xiaomeng79/istio-micro) [![codecov](https://codecov.io/gh/xiaomeng79/istio-micro/branch/master/graph/badge.svg)](https://codecov.io/gh/xiaomeng79/istio-micro) [![Go Report Card](https://goreportcard.com/badge/github.com/xiaomeng79/istio-micro)](https://goreportcard.com/report/github.com/xiaomeng79/istio-micro)
 
 
 #### 使用go-micro构建微服务示例请到一下仓库

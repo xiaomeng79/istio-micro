@@ -47,3 +47,6 @@ check.log
 *.pid
 
 */myvariables.sh
+
+# 编译目录
+dist
