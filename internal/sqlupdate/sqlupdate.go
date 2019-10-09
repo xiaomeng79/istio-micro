@@ -10,16 +10,16 @@ import (
 )
 
 var (
-	NoSqlNeedUpdate = errors.New("no sql need update")
+	ErrNoSQLNeedUpdate = errors.New("no sql need update")
 )
 
-// sql更新
-type SqlUpdate struct {
+//  sql更新
+type SQLUpdate struct {
 	Project string
 	Update  []UpdateRecord
 }
 
-// 更新记录
+//  更新记录
 type UpdateRecord struct {
 	Version string `json:"version"`
 	Author  string `json:"author"`
@@ -27,14 +27,14 @@ type UpdateRecord struct {
 	Date    string `json:"date"`
 }
 
-// 解析记录
-func (s *SqlUpdate) decode(filename string) error {
-	// 读取文件
+//  解析记录
+func (s *SQLUpdate) decode(filename string) error {
+	//  读取文件
 	bs, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
-	// 解析数据
+	//  解析数据
 	err = json.Unmarshal(bs, s)
 	if err != nil {
 		return err
@@ -42,8 +42,8 @@ func (s *SqlUpdate) decode(filename string) error {
 	return nil
 }
 
-// 比较应该执行的sql
-func (s *SqlUpdate) compareResult(lastVersion, currentVersion string) []UpdateRecord {
+//  比较应该执行的sql
+func (s *SQLUpdate) compareResult(lastVersion, currentVersion string) []UpdateRecord {
 	res := make([]UpdateRecord, 0)
 	for _, u := range s.Update {
 		if compare(lastVersion, u.Version) && compare(u.Version, currentVersion) {
@@ -53,35 +53,34 @@ func (s *SqlUpdate) compareResult(lastVersion, currentVersion string) []UpdateRe
 	return res
 }
 
-// 比较获取需要更新的版本
-// 判断旧版本是否大于要比较版本,true:小于等于(需要更新) false:大于(不需要更新)
+//  比较获取需要更新的版本//  判断旧版本是否大于要比较版本,true:小于等于(需要更新) false:大于(不需要更新)
 func compare(ov, cv string) bool {
 	return ov < cv
 }
 
-// 返回需要执行的sql
-func getSql(filename string) ([]byte, error) {
+//  返回需要执行的sql
+func getSQL(filename string) ([]byte, error) {
 	return ioutil.ReadFile(filename)
 }
 
-// 根据sql版本升级记录,新旧版本号,返回需要升级的sql
-func (s *SqlUpdate) GetSqls(filename, oldVersion, newVersion string) (string, error) {
-	// 解析更新文件
+//  根据sql版本升级记录,新旧版本号,返回需要升级的sql
+func (s *SQLUpdate) GetSqls(filename, oldVersion, newVersion string) (string, error) {
+	//  解析更新文件
 	err := s.decode(filename)
 	if err != nil {
 		return "", err
 	}
-	// 解析需要更新的sql
+	//  解析需要更新的sql
 	res := s.compareResult(oldVersion, newVersion)
-	if len(res) <= 0 {
-		return "", NoSqlNeedUpdate
+	if len(res) == 0 {
+		return "", ErrNoSQLNeedUpdate
 	}
-	// 排序sql
-	res = updateSqlSort(res)
-	// 获取需要更新的sql
+	//  排序sql
+	res = updateSQLSort(res)
+	//  获取需要更新的sql
 	result := make([]byte, 0)
 	for _, v := range res {
-		bs, err := getSql(v.File)
+		bs, err := getSQL(v.File)
 		if err != nil {
 			return "", err
 		}
@@ -91,8 +90,8 @@ func (s *SqlUpdate) GetSqls(filename, oldVersion, newVersion string) (string, er
 	return string(result), nil
 }
 
-// 排序
-func updateSqlSort(ur []UpdateRecord) []UpdateRecord {
+//  排序
+func updateSQLSort(ur []UpdateRecord) []UpdateRecord {
 	sort.Slice(ur, func(i, j int) bool {
 		return ur[i].Version < ur[j].Version
 	})

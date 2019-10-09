@@ -1,34 +1,36 @@
 package cinit
 
 import (
+	"io"
+
+	"github.com/xiaomeng79/istio-micro/internal/trace"
+
 	"github.com/opentracing/opentracing-go"
 	"github.com/xiaomeng79/go-log"
-	"github.com/xiaomeng79/istio-micro/internal/trace"
-	"io"
 )
 
 var c io.Closer
 
-//配置文件
+// 配置文件
 func traceInit() {
-	//配置
+	// 配置
 	c = traceingInit(Config.Trace.Address, Config.Trace.ZipkinURL, Config.Trace.LogTraceSpans, Config.Trace.SamplingRate, Config.Service.Name)
 	log.Infof("初始化traceing:%+v", opentracing.GlobalTracer())
 }
 
-//关闭
+// 关闭
 func tracerClose() {
 	if c != nil {
 		c.Close()
 	}
 }
 
-func traceingInit(JaegerURL, ZipkinURL string, LogTraceSpans bool, SamplingRate float64, servicename string) io.Closer {
+func traceingInit(jaegerURL, zipkinURL string, logTraceSpans bool, samplingRate float64, servicename string) io.Closer {
 	cl, err := trace.Configure(servicename, &trace.Options{
-		JaegerURL:     JaegerURL,
-		ZipkinURL:     ZipkinURL,
-		LogTraceSpans: LogTraceSpans,
-		SamplingRate:  SamplingRate,
+		JaegerURL:     jaegerURL,
+		ZipkinURL:     zipkinURL,
+		LogTraceSpans: logTraceSpans,
+		SamplingRate:  samplingRate,
 	})
 	if err != nil {
 		log.Error(err.Error())

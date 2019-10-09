@@ -12,7 +12,7 @@
 3. git 打标记 `git tag  0.0.2`
 4. 编译程序
 
-**详细实现在run.go下的execUpdateSql方法**
+**详细实现在run.go下的execUpdateSQL方法**
 
 #### TODO
 - 逻辑订阅

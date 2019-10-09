@@ -5,18 +5,16 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-	"time"
 
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
 )
 
-// 注册
+//  注册
 type regHandle func(context.Context, *gwruntime.ServeMux, *grpc.ClientConn) error
 
-// 新建网关
+//  新建网关
 func newGateway(ctx context.Context, conn *grpc.ClientConn, opts []gwruntime.ServeMuxOption, handles []regHandle) (http.Handler, error) {
-
 	mux := gwruntime.NewServeMux(opts...)
 
 	for _, f := range handles {
@@ -38,17 +36,15 @@ func dial(ctx context.Context, network, addr string) (*grpc.ClientConn, error) {
 	}
 }
 
-// dialTCP creates a client connection via TCP.
-// "addr" must be a valid TCP address with a port number.
+//  dialTCP creates a client connection via TCP.//  "addr" must be a valid TCP address with a port number.
 func dialTCP(ctx context.Context, addr string) (*grpc.ClientConn, error) {
 	return grpc.DialContext(ctx, addr, grpc.WithInsecure())
 }
 
-// dialUnix creates a client connection via a unix domain socket.
-// "addr" must be a valid path to the socket.
+//  dialUnix creates a client connection via a unix domain socket.//  "addr" must be a valid path to the socket.
 func dialUnix(ctx context.Context, addr string) (*grpc.ClientConn, error) {
-	d := func(addr string, timeout time.Duration) (net.Conn, error) {
-		return net.DialTimeout("unix", addr, timeout)
+	d := func(ctx context.Context, addr string) (net.Conn, error) {
+		return net.Dial("unix", addr)
 	}
-	return grpc.DialContext(ctx, addr, grpc.WithInsecure(), grpc.WithDialer(d))
+	return grpc.DialContext(ctx, addr, grpc.WithInsecure(), grpc.WithContextDialer(d))
 }

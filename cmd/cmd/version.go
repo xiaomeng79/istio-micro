@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/xiaomeng79/istio-micro/version"
+
+	"github.com/spf13/cobra"
 )
 
 var versionCmd = &cobra.Command{

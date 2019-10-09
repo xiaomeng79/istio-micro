@@ -1,14 +1,15 @@
 package cinit
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
 	"strconv"
+
+	_ "github.com/go-sql-driver/mysql" //  mysql驱动
+	"github.com/jmoiron/sqlx"
 )
 
 var Mysql *sqlx.DB
 
-//初始化连接
+// 初始化连接
 func mysqlInit() {
 	var err error
 	dataSourceName := Config.Mysql.User + ":" + Config.Mysql.Password + "@tcp(" + Config.Mysql.Addr + ":" + strconv.Itoa(Config.Mysql.Port) +
@@ -17,7 +18,7 @@ func mysqlInit() {
 	if err != nil {
 		panic(err)
 	}
-	Mysql.SetMaxIdleConns(Config.Mysql.IdleConn)
+	Mysql.SetMaxIdleConns(Config.Mysql.IDleConn)
 	Mysql.SetMaxOpenConns(Config.Mysql.MaxConn)
 	err = Mysql.Ping()
 	if err != nil {
@@ -25,7 +26,7 @@ func mysqlInit() {
 	}
 }
 
-//关闭
+// 关闭
 func mysqlClose() {
 	Mysql.Close()
 }

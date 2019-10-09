@@ -1,13 +1,14 @@
 package account
 
 import (
-	"github.com/xiaomeng79/go-log"
 	"github.com/xiaomeng79/istio-micro/cinit"
 	"github.com/xiaomeng79/istio-micro/internal/sqlupdate"
 	"github.com/xiaomeng79/istio-micro/version"
+
+	"github.com/xiaomeng79/go-log"
 )
 
-// 获取旧的版本号
+//  获取旧的版本号
 func getOldVersion() (string, error) {
 	var oldversion string
 	err := cinit.Pg.Get(&oldversion, `select version from sys_info where id =1 limit 1`)
@@ -18,7 +19,7 @@ func getOldVersion() (string, error) {
 	return oldversion, nil
 }
 
-// 更新新的版本号
+//  更新新的版本号
 func updateVersion() error {
 	_, err := cinit.Pg.Exec(`update sys_info set version=$1 where id=1`, version.Version)
 	if err != nil {
@@ -28,13 +29,13 @@ func updateVersion() error {
 	return nil
 }
 
-// 获取需要执行的sql
-func getSql() (string, error) {
+//  获取需要执行的sql
+func getSQL() (string, error) {
 	oldVersion, err := getOldVersion()
 	if err != nil {
 		return "", err
 	}
-	s := new(sqlupdate.SqlUpdate)
+	s := new(sqlupdate.SQLUpdate)
 	sqls, err := s.GetSqls("./sqlupdate/record.json", oldVersion, version.Version)
 	if err != nil {
 		log.Errorf("获取执行sql失败:%+v", err)
@@ -43,11 +44,11 @@ func getSql() (string, error) {
 	return sqls, nil
 }
 
-// 执行sql
-func execUpdateSql() error {
-	sqls, err := getSql()
+//  执行sql
+func execUpdateSQL() error {
+	sqls, err := getSQL()
 	if err != nil {
-		if err == sqlupdate.NoSqlNeedUpdate {
+		if err == sqlupdate.ErrNoSQLNeedUpdate {
 			return nil
 		}
 		return err
@@ -59,11 +60,9 @@ func execUpdateSql() error {
 	_, err = tx.Exec(sqls)
 	if err != nil {
 		log.Errorf("执行sql失败:%+v", err)
-		tx.Rollback()
+		_ = tx.Rollback()
 		return err
 	}
-	tx.Commit()
+	_ = tx.Commit()
 	return nil
 }
-
-// TODO 版本回退问题:

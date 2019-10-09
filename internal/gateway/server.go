@@ -2,56 +2,56 @@ package gateway
 
 import (
 	"context"
-	"github.com/xiaomeng79/go-log"
 	"net/http"
 
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/xiaomeng79/go-log"
 )
 
-// 参考:https://github.com/grpc-ecosystem/grpc-gateway/tree/master/examples/gateway
+//  参考:https://github.com/grpc-ecosystem/grpc-gateway/tree/master/examples/gateway
 const (
-	DefaultAddr        = ":8888" // 默认地址
-	DefaultGrpcAddr    = ":5001" // 默认grpc地址
-	DefaultGrpcNetwork = "tcp"   // 默认grpc
+	DefaultAddr        = ":8888" //  默认地址
+	DefaultGrpcAddr    = ":5001" //  默认grpc地址
+	DefaultGrpcNetwork = "tcp"   //  默认grpc
 	DefaultSwaggerDir  = "/swagger"
 )
 
-// Endpoint describes a gRPC endpoint
+//  Endpoint describes a gRPC endpoint
 type Endpoint struct {
 	Network, Addr string
 }
 
-// Options is a set of options to be passed to Run
+//  Options is a set of options to be passed to Run
 type Options struct {
-	// Addr is the address to listen
+	//  Addr is the address to listen
 	Addr string
 
-	// GRPCServer defines an endpoint of a gRPC service
+	//  GRPCServer defines an endpoint of a gRPC service
 	GRPCServer Endpoint
 
-	// SwaggerDir is a path to a directory from which the server
-	// serves swagger specs.
+	//  SwaggerDir is a path to a directory from which the server
+	//  serves swagger specs.
 	SwaggerDir string
 
-	// Mux is a list of options to be passed to the grpc-gateway multiplexer
+	//  Mux is a list of options to be passed to the grpc-gateway multiplexer
 	Mux []gwruntime.ServeMuxOption
 
-	// 注册
+	//  注册
 	Handles []regHandle
 }
 
-// 网关参数设置
-type GateWayOption func(*Options)
+//  网关参数设置
+type Option func(*Options)
 
-// 设置监听地址
-func WithAddr(addr string) GateWayOption {
+//  设置监听地址
+func WithAddr(addr string) Option {
 	return func(opts *Options) {
 		opts.Addr = addr
 	}
 }
 
-// 设置grpc服务地址
-func WithGRPCServer(network, addr string) GateWayOption {
+//  设置grpc服务地址
+func WithGRPCServer(network, addr string) Option {
 	return func(opts *Options) {
 		opts.GRPCServer = Endpoint{
 			Addr:    addr,
@@ -60,42 +60,41 @@ func WithGRPCServer(network, addr string) GateWayOption {
 	}
 }
 
-// 设置swagger目录
-func WithSwaggerDir(dir string) GateWayOption {
+//  设置swagger目录
+func WithSwaggerDir(dir string) Option {
 	return func(opts *Options) {
 		opts.SwaggerDir = dir
 	}
 }
 
-// 设置mux
-func WithMuxOption(mux ...gwruntime.ServeMuxOption) GateWayOption {
+//  设置mux
+func WithMuxOption(mux ...gwruntime.ServeMuxOption) Option {
 	return func(opts *Options) {
 		opts.Mux = mux
 	}
 }
 
-// 设置Handles
-func WithHandle(handle ...regHandle) GateWayOption {
+//  设置Handles
+func WithHandle(handle ...regHandle) Option {
 	return func(opts *Options) {
 		opts.Handles = handle
 	}
 }
 
-// 开启一个网关服务
-//go gateway.Run(
-//ctx,
-//gateway.WithAddr(":8888"),
-//gateway.WithGRPCServer("tcp", ":5001"),
-//gateway.WithSwaggerDir("/swagger"),
-//gateway.WithHandle(pb.RegisterRbacServiceHandler),
-//)
-
-// Run starts a HTTP server and blocks while running if successful.
-// The server will be shutdown when "ctx" is canceled.
-func Run(ctx context.Context, options ...GateWayOption) error {
+//  开启一个网关服务
+/* go gateway.Run(
+ctx,
+gateway.WithAddr(":8888"),
+gateway.WithGRPCServer("tcp", ":5001"),
+gateway.WithSwaggerDir("/swagger"),
+gateway.WithHandle(pb.RegisterRbacServiceHandler),
+)
+*/
+//  Run starts a HTTP server and blocks while running if successful.//  The server will be shutdown when "ctx" is canceled.
+func Run(ctx context.Context, options ...Option) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
-	// 初始化参数
+	//  初始化参数
 	opts := &Options{
 		Addr: DefaultAddr,
 		GRPCServer: Endpoint{
@@ -115,7 +114,7 @@ func Run(ctx context.Context, options ...GateWayOption) error {
 	}
 	go func() {
 		<-ctx.Done()
-		if err := conn.Close(); err != nil {
+		if err = conn.Close(); err != nil {
 			log.Errorf("Failed to close a client connection to the gRPC server: %v", err)
 		}
 	}()

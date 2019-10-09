@@ -170,7 +170,7 @@
           "title": "账户状态"
         }
       },
-      "title": "账户基本信息"
+      "title": "注入标签: https://github.com/favadi/protoc-go-inject-tag\n 账户基本信息"
     },
     "accountAccountUpdateReq": {
       "type": "object",

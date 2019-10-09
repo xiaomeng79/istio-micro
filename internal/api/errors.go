@@ -2,16 +2,17 @@ package api
 
 import (
 	"context"
+	"net/http"
+	"strconv"
+	"strings"
+
 	"github.com/labstack/echo"
 	"github.com/xiaomeng79/go-log"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"net/http"
-	"strconv"
-	"strings"
 )
 
-//定义错误信息
+// 定义错误信息
 
 type ErrorNo int64
 
@@ -20,9 +21,9 @@ func (e ErrorNo) String() string {
 }
 
 const (
-	//成功
+	// 成功
 	Success ErrorNo = 0
-	//请求
+	// 请求
 	ReqPathError          = 10001
 	ReqVersionNoExist     = 10002
 	ReqInterfaceNoExist   = 10003
@@ -31,27 +32,27 @@ const (
 	ReqNoAllow            = 10006
 	ReqTokenError         = 10007
 
-	//公共
-	CommonPageError         = 20001 //分页错误
-	CommonParamError        = 20002 //参数错误
-	CommonParamConvertError = 20003 //参数转换错误
-	CommonSignError         = 20004 //签名错误
-	CommonAppError          = 20008 //app错误
+	// 公共
+	CommonPageError         = 20001 // 分页错误
+	CommonParamError        = 20002 // 参数错误
+	CommonParamConvertError = 20003 // 参数转换错误
+	CommonSignError         = 20004 // 签名错误
+	CommonAppError          = 20008 // app错误
 
-	//业务参数
-	BusParamError        = 30001 //参数错误
-	BusParamConvertError = 30002 //参数转换错误
+	// 业务参数
+	BusParamError        = 30001 // 参数错误
+	BusParamConvertError = 30002 // 参数转换错误
 
-	//权限
+	// 权限
 
-	//服务端处理异常
+	// 服务端处理异常
 	ServiceError = 50001
 )
 
-var ReturnMsg map[ErrorNo]string = map[ErrorNo]string{
-	//成功
+var ReturnMsg = map[ErrorNo]string{
+	// 成功
 	Success: "success",
-	//请求
+	// 请求
 	ReqPathError:          "请求路径错误",
 	ReqVersionNoExist:     "请求版本不存在",
 	ReqInterfaceNoExist:   "请求接口不存在",
@@ -60,18 +61,18 @@ var ReturnMsg map[ErrorNo]string = map[ErrorNo]string{
 	ReqNoAllow:            "请求不允许",
 	ReqTokenError:         "Token不正确,请重新获取",
 
-	//公共
-	CommonPageError:         "分页错误",        //分页错误
-	CommonParamError:        "公共参数错误",      //参数错误
-	CommonParamConvertError: "公共参数转换错误",    //参数转换错误
-	CommonSignError:         "公共参数签名错误",    //签名错误
+	// 公共
+	CommonPageError:         "分页错误",        // 分页错误
+	CommonParamError:        "公共参数错误",      // 参数错误
+	CommonParamConvertError: "公共参数转换错误",    // 参数转换错误
+	CommonSignError:         "公共参数签名错误",    // 签名错误
 	CommonAppError:          "商户账户不存在或不可用", //
 
-	//业务参数
-	BusParamError:        "业务参数错误",   //参数错误
-	BusParamConvertError: "业务参数转换错误", //参数转换错误
+	// 业务参数
+	BusParamError:        "业务参数错误",   // 参数错误
+	BusParamConvertError: "业务参数转换错误", // 参数转换错误
 
-	//服务端处理异常
+	// 服务端处理异常
 	ServiceError: "服务端处理异常",
 }
 
@@ -85,16 +86,15 @@ func errCommon(code ErrorNo, errmsg ...string) interface{} {
 	}
 }
 
-/**
-RPC错误处理
-*/
-func RpcErr(c echo.Context, err error) error {
+//  RPC错误处理
+func RPCErr(c echo.Context, err error) error {
 	st := status.Convert(err)
-	if st.Code() == codes.InvalidArgument {
+	switch st.Code() {
+	case codes.InvalidArgument:
 		return c.JSON(http.StatusBadRequest, errCommon(BusParamError, ":", st.Message()))
-	} else if st.Code() == codes.PermissionDenied {
+	case codes.PermissionDenied:
 		return c.JSON(http.StatusUnauthorized, errCommon(BusParamError, ":", st.Message()))
-	} else {
+	default:
 		return c.JSON(http.StatusInternalServerError, errCommon(ServiceError))
 	}
 }
@@ -113,13 +113,11 @@ func HandleSuccess(c echo.Context, i ...interface{}) error {
 		resp["data"] = i[0]
 		resp["page"] = i[1]
 	default:
-
 	}
-
 	return c.JSON(http.StatusOK, resp)
 }
 
-func HandleSuccessReq(c echo.Context, ctx context.Context, r *ReqParam, v interface{}) error {
+func HandleSuccessReq(ctx context.Context, c echo.Context, r *ReqParam, v interface{}) error {
 	_r, err := r.R(v)
 	if err != nil {
 		log.Error(err.Error(), ctx)

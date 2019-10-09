@@ -6,7 +6,7 @@ set -uxe
 #定义变量
 GOPROXY=${GOPROXY:-"https://goproxy.io"}
 soft_dir=${HOME:-"/tmp"}
-go_version=${go_version:-"1.11"}
+go_version=${go_version:-"1.13.1"}
 protoc_version=${protoc_version:-"3.6.1"}
 protoc_include_path=${protoc_include_path:-"${soft_dir}/protoc-${protoc_version}-linux-x86_64/include"}
 cloc_version=${cloc_version:-"1.76"}
@@ -43,6 +43,10 @@ protoc_install(){
 		echo "protoc 的版本是:" && protoc --version
 }
 
+golangci-lint(){
+    echo "安装golangci-lint工具"
+}
+
 go_plug(){
         cd ${GOPATH} && export GOPROXY=https://goproxy.io && export GO111MODULE=off  && export GOPATH=${GOPATH} && \
         echo "GOPATH为:"${GOPATH} && \
@@ -66,8 +70,33 @@ go_plug(){
 		`git clone https://github.com/brendangregg/FlameGraph.git` || { echo "FlameGraph已经存在"; }
 }
 
+# 安装一些依赖工具到GOPATH
+gopath_install(){
+    #代码风格审查
+    go get  github.com/golangci/golangci-lint/cmd/golangci-lint
+    go get  github.com/golang/protobuf/protoc-gen-go
+    go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+    go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+    go get  github.com/favadi/protoc-go-inject-tag
+    go get  github.com/rakyll/statik
+}
 
-go_install
-cloc_install
-protoc_install
-go_plug
+# 安装依赖
+case $1 in
+    sample) echo "简单安装"
+        protoc_install
+        gopath_install
+    ;;
+    all) echo "全部安装"
+        go_install
+        cloc_install
+        protoc_install
+        go_plug
+    ;;
+    *)
+    echo "默认安装"
+        go_install
+        protoc_install
+        gopath_install
+    ;;
+esac

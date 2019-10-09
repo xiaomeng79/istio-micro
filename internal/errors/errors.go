@@ -1,16 +1,18 @@
 package errors
 
 import (
-	"github.com/json-iterator/go"
-	"github.com/xiaomeng79/istio-micro/cinit"
 	"net/http"
+
+	"github.com/xiaomeng79/istio-micro/cinit"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
-// Error implements the error interface.
+//  Error implements the error interface.
 type Error struct {
-	Id     string `json:"id"`
+	ID     string `json:"id"`
 	Code   int32  `json:"code"`
 	Detail string `json:"detail"`
 	Status string `json:"status"`
@@ -21,18 +23,17 @@ func (e *Error) Error() string {
 	return string(b)
 }
 
-// New generates a custom error.
+//  New generates a custom error.
 func New(detail string, code int32) error {
 	return &Error{
-		Id:     cinit.Config.Service.Name,
+		ID:     cinit.Config.Service.Name,
 		Code:   code,
 		Detail: detail,
 		Status: http.StatusText(int(code)),
 	}
 }
 
-// Parse tries to parse a JSON string into an error. If that
-// fails, it will set the given string as the error detail.
+//  Parse tries to parse a JSON string into an error. If that//  fails, it will set the given string as the error detail.
 func Parse(err string) *Error {
 	e := new(Error)
 	errr := json.Unmarshal([]byte(err), e)
@@ -42,62 +43,62 @@ func Parse(err string) *Error {
 	return e
 }
 
-// BadRequest generates a 400 error.
+//  BadRequest generates a 400 error.
 func BadRequest(detail string) error {
 	return &Error{
-		Id:     cinit.Config.Service.Name,
-		Code:   400,
+		ID:     cinit.Config.Service.Name,
+		Code:   http.StatusNotFound,
 		Detail: detail,
-		Status: http.StatusText(400),
+		Status: http.StatusText(http.StatusNotFound),
 	}
 }
 
-// Unauthorized generates a 401 error.
+//  Unauthorized generates a 401 error.
 func Unauthorized(detail string) error {
 	return &Error{
-		Id:     cinit.Config.Service.Name,
-		Code:   401,
+		ID:     cinit.Config.Service.Name,
+		Code:   http.StatusUnauthorized,
 		Detail: detail,
-		Status: http.StatusText(401),
+		Status: http.StatusText(http.StatusUnauthorized),
 	}
 }
 
-// Forbidden generates a 403 error.
+//  Forbidden generates a 403 error.
 func Forbidden(detail string) error {
 	return &Error{
-		Id:     cinit.Config.Service.Name,
-		Code:   403,
+		ID:     cinit.Config.Service.Name,
+		Code:   http.StatusForbidden,
 		Detail: detail,
-		Status: http.StatusText(403),
+		Status: http.StatusText(http.StatusForbidden),
 	}
 }
 
-// NotFound generates a 404 error.
+//  NotFound generates a 404 error.
 func NotFound(detail string) error {
 	return &Error{
-		Id:     cinit.Config.Service.Name,
-		Code:   404,
+		ID:     cinit.Config.Service.Name,
+		Code:   http.StatusNotFound,
 		Detail: detail,
-		Status: http.StatusText(404),
+		Status: http.StatusText(http.StatusNotFound),
 	}
 }
 
-// InternalServerError generates a 500 error.
+//  InternalServerError generates a 500 error.
 func InternalServerError(detail string) error {
 	return &Error{
-		Id:     cinit.Config.Service.Name,
-		Code:   500,
+		ID:     cinit.Config.Service.Name,
+		Code:   http.StatusInternalServerError,
 		Detail: detail,
-		Status: http.StatusText(500),
+		Status: http.StatusText(http.StatusInternalServerError),
 	}
 }
 
-// Conflict generates a 409 error.
+//  Conflict generates a 409 error.
 func Conflict(detail string) error {
 	return &Error{
-		Id:     cinit.Config.Service.Name,
-		Code:   409,
+		ID:     cinit.Config.Service.Name,
+		Code:   http.StatusConflict,
 		Detail: detail,
-		Status: http.StatusText(409),
+		Status: http.StatusText(http.StatusConflict),
 	}
 }

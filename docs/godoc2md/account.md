@@ -33,10 +33,10 @@
   * [func (m \*Account) Add(ctx context.Context) error](#Account.Add)
   * [func (m \*Account) QueryOne(ctx context.Context) error](#Account.QueryOne)
   * [func (m \*Account) Update(ctx context.Context) error](#Account.Update)
-* [type AccountServer](#AccountServer)
-  * [func (s \*AccountServer) AccountAdd(ctx context.Context, in \*pb.AccountBase) (out \*pb.AccountBase, outerr error)](#AccountServer.AccountAdd)
-  * [func (s \*AccountServer) AccountQueryOne(ctx context.Context, in \*pb.AccountId) (out \*pb.AccountBase, outerr error)](#AccountServer.AccountQueryOne)
-  * [func (s \*AccountServer) AccountUpdate(ctx context.Context, in \*pb.AccountUpdateReq) (out \*empty.Empty, outerr error)](#AccountServer.AccountUpdate)
+* [type Server](#Server)
+  * [func (s \*Server) AccountAdd(ctx context.Context, in \*pb.AccountBase) (out \*pb.AccountBase, outerr error)](#Server.AccountAdd)
+  * [func (s \*Server) AccountQueryOne(ctx context.Context, in \*pb.AccountID) (out \*pb.AccountBase, outerr error)](#Server.AccountQueryOne)
+  * [func (s \*Server) AccountUpdate(ctx context.Context, in \*pb.AccountUpdateReq) (out \*empty.Empty, outerr error)](#Server.AccountUpdate)
 
 #### <a name="pkg-files">Package files</a>
 [account.go](./account.go) [model.go](./model.go) [run.go](./run.go) [versionupdate.go](./versionupdate.go) 
@@ -44,7 +44,7 @@
 ## <a name="pkg-constants">Constants</a>
 ``` go
 const (
-    SN = "srv-account" //定义services名称
+    SN = "srv-account"// 定义services名称
 )
 ```
 
@@ -57,7 +57,7 @@ func Run()
 ``` go
 type Account struct {
     Page utils.Page
-    // contains filtered or unexported fields
+   //  contains filtered or unexported fields
 }
 ```
 
@@ -79,25 +79,25 @@ func (m *Account) Update(ctx context.Context) error
 ```
 修改
 
-## <a name="AccountServer">type</a> [AccountServer](./account.go#L11)
+## <a name="Server">type</a> [Server](./account.go#L11)
 ``` go
-type AccountServer struct{}
+type Server struct{}
 ```
 
-### <a name="AccountServer.AccountAdd">func</a> (\*AccountServer) [AccountAdd](./account.go#L13)
+### <a name="Server.AccountAdd">func</a> (\*Server) [AccountAdd](./account.go#L13)
 ``` go
-func (s *AccountServer) AccountAdd(ctx context.Context, in *pb.AccountBase) (out *pb.AccountBase, outerr error)
+func (s *Server) AccountAdd(ctx context.Context, in *pb.AccountBase) (out *pb.AccountBase, outerr error)
 ```
 
-### <a name="AccountServer.AccountQueryOne">func</a> (\*AccountServer) [AccountQueryOne](./account.go#L65)
+### <a name="Server.AccountQueryOne">func</a> (\*Server) [AccountQueryOne](./account.go#L65)
 ``` go
-func (s *AccountServer) AccountQueryOne(ctx context.Context, in *pb.AccountId) (out *pb.AccountBase, outerr error)
+func (s *Server) AccountQueryOne(ctx context.Context, in *pb.AccountID) (out *pb.AccountBase, outerr error)
 ```
 查询一个
 
-### <a name="AccountServer.AccountUpdate">func</a> (\*AccountServer) [AccountUpdate](./account.go#L26)
+### <a name="Server.AccountUpdate">func</a> (\*Server) [AccountUpdate](./account.go#L26)
 ``` go
-func (s *AccountServer) AccountUpdate(ctx context.Context, in *pb.AccountUpdateReq) (out *empty.Empty, outerr error)
+func (s *Server) AccountUpdate(ctx context.Context, in *pb.AccountUpdateReq) (out *empty.Empty, outerr error)
 ```
 
 - - -

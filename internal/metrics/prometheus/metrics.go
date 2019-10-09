@@ -1,7 +1,6 @@
 package prometheus
 
 import (
-	"github.com/xiaomeng79/go-log"
 	"os"
 	"strconv"
 	"time"
@@ -9,6 +8,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/xiaomeng79/go-log"
 )
 
 var defaultLabelNames = []string{"node", "host", "status"}
@@ -69,7 +69,7 @@ func MetricsFunc(options ...Option) echo.MiddlewareFunc {
 			req := c.Request()
 			res := c.Response()
 
-			// 拦截metrics path，默认"/metrics"
+			//  拦截metrics path，默认"/metrics"
 			if req.URL.Path == opts.MetricsPath {
 				promhttp.Handler().ServeHTTP(c.Response(), c.Request())
 				return nil

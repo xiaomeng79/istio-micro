@@ -2,16 +2,16 @@ package gateway
 
 import (
 	"fmt"
-	"github.com/xiaomeng79/go-log"
 	"net/http"
 	"path"
 	"strings"
 
+	"github.com/xiaomeng79/go-log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 )
 
-// swaggerServer returns swagger specification files located under "/swagger/"
+//  swaggerServer returns swagger specification files located under "/swagger/"
 func swaggerServer(dir string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !strings.HasSuffix(r.URL.Path, ".swagger.json") {
@@ -27,8 +27,7 @@ func swaggerServer(dir string) http.HandlerFunc {
 	}
 }
 
-// allowCORS allows Cross Origin Resoruce Sharing from any origin.
-// Don't do this without consideration in production systems.
+//  allowCORS allows Cross Origin Resoruce Sharing from any origin.//  Don't do this without consideration in production systems.
 func allowCORS(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if origin := r.Header.Get("Origin"); origin != "" {
@@ -42,9 +41,7 @@ func allowCORS(h http.Handler) http.Handler {
 	})
 }
 
-// preflightHandler adds the necessary headers in order to serve
-// CORS from any origin using the methods "GET", "HEAD", "POST", "PUT", "DELETE"
-// We insist, don't do this without consideration in production systems.
+//  preflightHandler adds the necessary headers in order to serve//  CORS from any origin using the methods "GET", "HEAD", "POST", "PUT", "DELETE"//  We insist, don't do this without consideration in production systems.
 func preflightHandler(w http.ResponseWriter, r *http.Request) {
 	headers := []string{"Content-Type", "Accept"}
 	w.Header().Set("Access-Control-Allow-Headers", strings.Join(headers, ","))
@@ -53,7 +50,7 @@ func preflightHandler(w http.ResponseWriter, r *http.Request) {
 	log.Infof("preflight request for %s", r.URL.Path)
 }
 
-// healthzServer returns a simple health handler which returns ok.
+//  healthzServer returns a simple health handler which returns ok.
 func healthzServer(conn *grpc.ClientConn) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain")

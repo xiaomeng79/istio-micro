@@ -73,10 +73,10 @@ COMMENT ON COLUMN public.account.account_status IS '账户状态';
 
 
 --
--- Name: account_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: account_idSeq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.account_id_seq
+CREATE SEQUENCE public.account_idSeq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -85,20 +85,20 @@ CREATE SEQUENCE public.account_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.account_id_seq OWNER TO postgres;
+ALTER TABLE public.account_idSeq OWNER TO postgres;
 
 --
--- Name: account_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: account_idSeq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.account_id_seq OWNED BY public.account.id;
+ALTER SEQUENCE public.account_idSeq OWNED BY public.account.id;
 
 
 --
 -- Name: account id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.account ALTER COLUMN id SET DEFAULT nextval('public.account_id_seq'::regclass);
+ALTER TABLE ONLY public.account ALTER COLUMN id SET DEFAULT nextval('public.account_idSeq'::regclass);
 
 
 --
@@ -110,10 +110,10 @@ COPY public.account (id, user_id, account_level, account, account_status) FROM s
 
 
 --
--- Name: account_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: account_idSeq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.account_id_seq', 1, false);
+SELECT pg_catalog.setval('public.account_idSeq', 1, false);
 
 
 --

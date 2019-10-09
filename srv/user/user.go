@@ -2,16 +2,18 @@ package user
 
 import (
 	"context"
+
+	pb "github.com/xiaomeng79/istio-micro/srv/user/proto"
+
 	"github.com/jinzhu/copier"
 	"github.com/xiaomeng79/go-log"
-	pb "github.com/xiaomeng79/istio-micro/srv/user/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-type UserServer struct{}
+type Server struct{}
 
-func (s *UserServer) UserAdd(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error) {
+func (s *Server) UserAdd(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error) {
 	m := new(User)
 	out = new(pb.UserBase)
 	err := copier.Copy(m, in)
@@ -34,7 +36,7 @@ func (s *UserServer) UserAdd(ctx context.Context, in *pb.UserBase) (out *pb.User
 	return
 }
 
-func (s *UserServer) UserUpdate(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error) {
+func (s *Server) UserUpdate(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error) {
 	m := new(User)
 	out = new(pb.UserBase)
 	err := copier.Copy(m, in)
@@ -57,9 +59,9 @@ func (s *UserServer) UserUpdate(ctx context.Context, in *pb.UserBase) (out *pb.U
 	return
 }
 
-func (s *UserServer) UserDelete(ctx context.Context, in *pb.UserId) (out *pb.UserId, outerr error) {
+func (s *Server) UserDelete(ctx context.Context, in *pb.UserID) (out *pb.UserID, outerr error) {
 	m := new(User)
-	out = new(pb.UserId)
+	out = new(pb.UserID)
 	err := copier.Copy(m, in)
 	if err != nil {
 		log.Error(err.Error(), ctx)
@@ -80,7 +82,7 @@ func (s *UserServer) UserDelete(ctx context.Context, in *pb.UserId) (out *pb.Use
 	return
 }
 
-func (s *UserServer) UserQueryOne(ctx context.Context, in *pb.UserId) (out *pb.UserBase, outerr error) {
+func (s *Server) UserQueryOne(ctx context.Context, in *pb.UserID) (out *pb.UserBase, outerr error) {
 	m := new(User)
 	out = new(pb.UserBase)
 	err := copier.Copy(m, in)
@@ -103,7 +105,7 @@ func (s *UserServer) UserQueryOne(ctx context.Context, in *pb.UserId) (out *pb.U
 	return
 }
 
-func (s *UserServer) UserQueryAll(ctx context.Context, in *pb.UserAllOption) (*pb.UserAll, error) {
+func (s *Server) UserQueryAll(ctx context.Context, in *pb.UserAllOption) (*pb.UserAll, error) {
 	m := new(User)
 	err := copier.Copy(m, in)
 	if err != nil {

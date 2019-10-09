@@ -1,12 +1,9 @@
 syntax = "proto3";
 
 package user;
+//  参考:https://github.com/chai2010/advanced-go-programming-book/blob/master/ch4-rpc/ch4-06-grpc-ext.md//  参考:https://github.com/grpc-ecosystem/grpc-gateway/tree/master/examples/proto/examplepb
 
-// 参考:https://github.com/chai2010/advanced-go-programming-book/blob/master/ch4-rpc/ch4-06-grpc-ext.md
-// 参考:https://github.com/grpc-ecosystem/grpc-gateway/tree/master/examples/proto/examplepb
-
-import "google/api/annotations.proto";
-//import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";// import "google/protobuf/empty.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
@@ -20,7 +17,7 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
         };
     };
     host: "127.0.0.1:9999";
-    //    base_path: "/backend/v1";
+   //     base_path: "/backend/v1";
     schemes: HTTP;
     consumes: "application/json";
     produces: "application/json";
@@ -49,37 +46,36 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 };
 
 
-
-// 用户服务
+//  用户服务
 service UserService {
-    // 用户添加
+   //  用户添加
     rpc UserAdd(UserBase) returns (UserBase) {
         option (google.api.http) = {
 			post: "/user"
 			body:"*"
 		};
     }
-    // 用户更新
+   //  用户更新
     rpc UserUpdate(UserBase) returns (UserBase) {
         option (google.api.http) = {
 			put: "/user"
 			body:"*"
 		};
     }
-    // 用户删除
-    rpc UserDelete(UserId) returns (UserId) {
+   //  用户删除
+    rpc UserDelete(UserID) returns (UserID) {
         option (google.api.http) = {
 			delete: "/user/{id}"
 		};
     }
-    // 用户查询一个
-    rpc UserQueryOne(UserId) returns (UserBase) {
+   //  用户查询一个
+    rpc UserQueryOne(UserID) returns (UserBase) {
         option (google.api.http) = {
 			get: "/user/{id}"
 			response_body:"*"
 		};
     }
-    // 用户查询全部
+   //  用户查询全部
     rpc UserQueryAll(UserAllOption) returns (UserAll) {
         option (google.api.http) = {
 			get: "/user"
@@ -87,66 +83,58 @@ service UserService {
 		};
     }
 }
-
-// 用户性别
+//  用户性别
 enum UserSex {
     DEFAULT = 0;
     MEN = 1;
     WOMEN = 2;
 }
-
-// 注入标签: https://github.com/favadi/protoc-go-inject-tag
-
-// 用户基本信息
+//  注入标签: https://github.com/favadi/protoc-go-inject-tag
+//  用户基本信息
 message UserBase {
-    // @inject_tag: db:"id"
+   //  @inject_tag: db:"id"
     int64 id = 1 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"用户id"}];
-    // @inject_tag: db:"user_name" valid:"required~用户名称必须存在"
+   //  @inject_tag: db:"user_name" valid:"required~用户名称必须存在"
     string user_name = 2 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"用户名称"}];
-    // @inject_tag: db:"iphone" valid:"required~手机号必须存在"
+   //  @inject_tag: db:"iphone" valid:"required~手机号必须存在"
     string iphone = 3 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"手机号"}];
-    // @inject_tag: db:"password"
+   //  @inject_tag: db:"password"
     string password = 4 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"密码"}];
-    // @inject_tag: db:"sex"
+   //  @inject_tag: db:"sex"
     UserSex sex = 5 [(grpc.gateway.protoc_gen_swagger.options.openapiv2_field) = {title:"性别"}];
-}
-// 用户Id
-message UserId {
-    // 用户id
+}//  用户ID
+message UserID {
+   //  用户id
     int64 id = 1;
 }
-
-// 用户全部选项
+//  用户全部选项
 message UserAllOption {
-    // 用户性别
+   //  用户性别
     UserSex sex = 1;
-    // 页数
+   //  页数
     Page page = 2;
-    // 用户名称
+   //  用户名称
     string user_name = 3;
 }
-
-// 用户全部
+//  用户全部
 message UserAll {
-    // 用户信息
+   //  用户信息
     repeated UserBase all = 1;
-    // 页数
+   //  页数
     Page page = 2;
 }
-
-// 空消息
+//  空消息
 message Null {}
-
-// 分页
+//  分页
 message Page {
-    // 页
+   //  页
     int64 page_index = 1;
-    // 每页大小
+   //  每页大小
     int64 page_size = 2;
-    // 总页数
+   //  总页数
     int64 page_total = 3;
-    // 条数
+   //  条数
     int64 count = 4;
-    // 总条数
+   //  总条数
     int64 total = 5;
 }

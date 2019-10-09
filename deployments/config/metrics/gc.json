@@ -5,7 +5,7 @@
       "label": "test",
       "description": "",
       "type": "datasource",
-      "pluginId": "influxdb",
+      "pluginID": "influxdb",
       "pluginName": "InfluxDB"
     }
   ],
@@ -43,7 +43,7 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "gnetID": null,
   "graphTooltip": 0,
   "id": null,
   "links": [],
@@ -107,7 +107,7 @@
           "measurement": "runtime.NumGoroutine.gauge",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "A",
+          "refID": "A",
           "resultFormat": "time_series",
           "select": [
             [
@@ -226,7 +226,7 @@
           "measurement": "runtime.MemStats.NumGC.gauge",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "A",
+          "refID": "A",
           "resultFormat": "time_series",
           "select": [
             [
@@ -344,7 +344,7 @@
           "measurement": "runtime.MemStats.HeapAlloc.gauge",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "A",
+          "refID": "A",
           "resultFormat": "time_series",
           "select": [
             [

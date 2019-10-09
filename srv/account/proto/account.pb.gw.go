@@ -133,7 +133,7 @@ func local_request_AccountService_AccountUpdate_0(ctx context.Context, marshaler
 }
 
 func request_AccountService_AccountQueryOne_0(ctx context.Context, marshaler runtime.Marshaler, client AccountServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AccountId
+	var protoReq AccountID
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -160,7 +160,7 @@ func request_AccountService_AccountQueryOne_0(ctx context.Context, marshaler run
 }
 
 func local_request_AccountService_AccountQueryOne_0(ctx context.Context, marshaler runtime.Marshaler, server AccountServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq AccountId
+	var protoReq AccountID
 	var metadata runtime.ServerMetadata
 
 	var (

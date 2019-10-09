@@ -8,7 +8,7 @@ import (
 
 type vFn func() error
 
-//验证
+// 验证
 func V(fns ...vFn) error {
 	for _, fn := range fns {
 		err := fn()

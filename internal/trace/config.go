@@ -2,9 +2,10 @@ package trace
 
 import (
 	"fmt"
-	"github.com/xiaomeng79/go-log"
 	"io"
 	"time"
+
+	"github.com/xiaomeng79/go-log"
 
 	ot "github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go"
@@ -24,13 +25,10 @@ var (
 	logger      = spanLogger{}
 )
 
-// indirection for testing
+//  indirection for testing
 type newZipkin func(url string, options ...zipkin.HTTPOption) (*zipkin.HTTPTransport, error)
 
-// Configure initializes Istio's tracing subsystem.
-//
-// You typically call this once at process startup.
-// Once this call returns, the tracing system is ready to accept data.
+//  Configure initializes Istio's tracing subsystem.// //  You typically call this once at process startup.//  Once this call returns, the tracing system is ready to accept data.
 func Configure(serviceName string, options *Options) (io.Closer, error) {
 	return configure(serviceName, options, zipkin.NewHTTPTransport)
 }
@@ -64,12 +62,12 @@ func configure(serviceName string, options *Options, nz newZipkin) (io.Closer, e
 	}
 
 	var rep jaeger.Reporter
-	if len(reporters) == 0 {
-		// leave the default NoopTracer in place since there's no place for tracing to go...
+	switch len(reporters) {
+	case 0:
 		return holder{}, nil
-	} else if len(reporters) == 1 {
+	case 1:
 		rep = reporters[0]
-	} else {
+	default:
 		rep = jaeger.NewCompositeReporter(reporters...)
 	}
 
@@ -85,7 +83,7 @@ func configure(serviceName string, options *Options, nz newZipkin) (io.Closer, e
 		tracer, closer = jaeger.NewTracer(serviceName, sampler, rep, poolSpans, jaeger.TracerOptions.Gen128Bit(true))
 	}
 
-	// NOTE: global side effect!
+	//  NOTE: global side effect!
 	ot.SetGlobalTracer(tracer)
 
 	return holder{
@@ -109,20 +107,20 @@ func (h holder) Close() error {
 
 type spanLogger struct{}
 
-// Report implements the Report() method of jaeger.Reporter
+//  Report implements the Report() method of jaeger.Reporter
 func (spanLogger) Report(span *jaeger.Span) {
 	log.Infof("Reporting span operation:%s,span:%s", span.OperationName(), span.String())
 }
 
-// Close implements the Close() method of jaeger.Reporter.
+//  Close implements the Close() method of jaeger.Reporter.
 func (spanLogger) Close() {}
 
-// Error implements the Error() method of log.Logger.
+//  Error implements the Error() method of log.Logger.
 func (spanLogger) Error(msg string) {
 	log.Error(msg)
 }
 
-// Infof implements the Infof() method of log.Logger.
+//  Infof implements the Infof() method of log.Logger.
 func (spanLogger) Infof(msg string, args ...interface{}) {
 	log.Infof(msg, args...)
 }

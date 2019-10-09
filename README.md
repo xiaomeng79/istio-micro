@@ -27,6 +27,7 @@
 |metric|监控报警(influxdb+grafana)|
 |docker-compose|容器部署|
 |istio|流量控制,服务降级,跟踪,服务发现,分流等|
+|golangci-lint|代码风格一致性,静态检查|
 
 ### 模块
 
@@ -43,11 +44,12 @@
 1. 安装依赖
 
 - 系统依赖安装
-    1. git >= 2.17
-    2. wget
-    3. make
-    4. unzip
-    5. tar
+    - git >= 2.17
+    - wget
+    - make
+    - unzip
+    - tar
+    - go >= 1.13
     
 ```bash
 #ubuntu系统安装
@@ -70,7 +72,7 @@ git clone https://github.com/xiaomeng79/istio-micro.git
 cd istio-micro && git pull --all
 make ver
 source ~/.profile 
-make install
+make install sample
 ```
 
 4. 编译代码
@@ -157,48 +159,36 @@ curl -X POST \
 
 Makefile
 
-```go
-//格式化代码
+```go// 格式化代码
 make fmt 
-
-//vendor
+// vendor
 make vendor
-
-//代码测试,代码检查
+// 代码测试,代码检查
 make test
-
-//编译单个服务,同时添加版本信息
+// 编译单个服务,同时添加版本信息
 make build type=srv project=user
-
-//编译全部服务
+// 编译全部服务
 make allbuild
-
-//protobuf
+// protobuf
 make proto
-
-//生成单个dockerfile
+// 生成单个dockerfile
 make dockerfile type=srv project=user
-
-//生成全部dockerfile
+// 生成全部dockerfile
 make alldockerfile
-
-//docker-compose部署
+// docker-compose部署
 make compose up
-
-//打包静态文件
+// 打包静态文件
 make builddata
-
-//提交代码到远程仓库
+// 提交代码到远程仓库
 make push msg="提交信息"
-
-//开启代码性能分析(如type为api,project为frontend)
+// 开启代码性能分析(如type为api,project为frontend)
 make pprofon type=api project=frontend
-
-//关闭代码性能分析(如type为api,project为frontend)
+// 关闭代码性能分析(如type为api,project为frontend)
 make pprofoff type=api project=frontend
-
-// 清空编译
+//  清空编译
 make clean
+// 代码风格检查
+make lint
 ```
 
 #### 命令行
@@ -234,15 +224,14 @@ http://127.0.0.1:3000 账号密码:admin
 程序运行的时候会生成进程id(默认在运行目录下server.pid),通过kill命令发送一个信号(默认10)到程序**开启**性能分析,kill命令发送一个信号(默认12)到程序**关闭**性能分析
 
 
-```shell
-//比如进程id:3125
-kill -10 3125 //开启代码性能分析
+```shell// 比如进程id:3125
+kill -10 3125// 开启代码性能分析
 
-go tool pprof http://127.0.0.1:38888/debug/pprof/goroutine //goroutine
-go tool pprof http://127.0.0.1:38888/debug/pprof/heap //heap
-go tool pprof http://127.0.0.1:38888/debug/pprof/profile //profile
+go tool pprof http://127.0.0.1:38888/debug/pprof/goroutine// goroutine
+go tool pprof http://127.0.0.1:38888/debug/pprof/heap// heap
+go tool pprof http://127.0.0.1:38888/debug/pprof/profile// profile
 
-kill -12 3125 //关闭代码性能分析
+kill -12 3125// 关闭代码性能分析
 ```
 
 #### 生成文档(swagger)

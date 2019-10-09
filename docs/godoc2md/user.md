@@ -28,21 +28,21 @@
 ## <a name="pkg-index">Index</a>
 * [Constants](#pkg-constants)
 * [func Run()](#Run)
-* [func UserCacheDel(ctx context.Context, id int64)](#UserCacheDel)
-* [func UserCacheGet(ctx context.Context, id int64) (map[string]string, error)](#UserCacheGet)
-* [func UserCacheSet(ctx context.Context, id int64)](#UserCacheSet)
+* [func CacheDel(ctx context.Context, id int64)](#CacheDel)
+* [func CacheGet(ctx context.Context, id int64) (map[string]string, error)](#CacheGet)
+* [func CacheSet(ctx context.Context, id int64)](#CacheSet)
 * [type User](#User)
   * [func (m \*User) Add(ctx context.Context) error](#User.Add)
   * [func (m \*User) Delete(ctx context.Context) error](#User.Delete)
   * [func (m \*User) QueryAll(ctx context.Context) ([]\*User, utils.Page, error)](#User.QueryAll)
   * [func (m \*User) QueryOne(ctx context.Context) error](#User.QueryOne)
   * [func (m \*User) Update(ctx context.Context) error](#User.Update)
-* [type UserServer](#UserServer)
-  * [func (s \*UserServer) UserAdd(ctx context.Context, in \*pb.UserBase) (out \*pb.UserBase, outerr error)](#UserServer.UserAdd)
-  * [func (s \*UserServer) UserDelete(ctx context.Context, in \*pb.UserId) (out \*pb.UserId, outerr error)](#UserServer.UserDelete)
-  * [func (s \*UserServer) UserQueryAll(ctx context.Context, in \*pb.UserAllOption) (\*pb.UserAll, error)](#UserServer.UserQueryAll)
-  * [func (s \*UserServer) UserQueryOne(ctx context.Context, in \*pb.UserId) (out \*pb.UserBase, outerr error)](#UserServer.UserQueryOne)
-  * [func (s \*UserServer) UserUpdate(ctx context.Context, in \*pb.UserBase) (out \*pb.UserBase, outerr error)](#UserServer.UserUpdate)
+* [type Server](#Server)
+  * [func (s \*Server) UserAdd(ctx context.Context, in \*pb.UserBase) (out \*pb.UserBase, outerr error)](#Server.UserAdd)
+  * [func (s \*Server) UserDelete(ctx context.Context, in \*pb.UserID) (out \*pb.UserID, outerr error)](#Server.UserDelete)
+  * [func (s \*Server) UserQueryAll(ctx context.Context, in \*pb.UserAllOption) (\*pb.UserAll, error)](#Server.UserQueryAll)
+  * [func (s \*Server) UserQueryOne(ctx context.Context, in \*pb.UserID) (out \*pb.UserBase, outerr error)](#Server.UserQueryOne)
+  * [func (s \*Server) UserUpdate(ctx context.Context, in \*pb.UserBase) (out \*pb.UserBase, outerr error)](#Server.UserUpdate)
 
 #### <a name="pkg-files">Package files</a>
 [cache.go](./cache.go) [common_cache.go](./common_cache.go) [model.go](./model.go) [msg_queue.go](./msg_queue.go) [run.go](./run.go) [user.go](./user.go) 
@@ -50,7 +50,7 @@
 ## <a name="pkg-constants">Constants</a>
 ``` go
 const (
-    KeyMaxExpire     = 500 //秒
+    KeyMaxExpire     = 500// 秒
     AgainGetStopTime = 100 * time.Millisecond
 )
 ```
@@ -65,12 +65,12 @@ const (
 
 ``` go
 const (
-    SN = "srv-user" //定义services名称
+    SN = "srv-user"// 定义services名称
 )
 ```
 ``` go
 const (
-    UserCacheIdPrefix = "ucid"
+    CacheIDPrefix = "ucid"
 )
 ```
 
@@ -79,25 +79,25 @@ const (
 func Run()
 ```
 
-## <a name="UserCacheDel">func</a> [UserCacheDel](./cache.go#L61)
+## <a name="CacheDel">func</a> [CacheDel](./cache.go#L61)
 ``` go
-func UserCacheDel(ctx context.Context, id int64)
+func CacheDel(ctx context.Context, id int64)
 ```
 
-## <a name="UserCacheGet">func</a> [UserCacheGet](./cache.go#L16)
+## <a name="CacheGet">func</a> [CacheGet](./cache.go#L16)
 ``` go
-func UserCacheGet(ctx context.Context, id int64) (map[string]string, error)
+func CacheGet(ctx context.Context, id int64) (map[string]string, error)
 ```
 
-## <a name="UserCacheSet">func</a> [UserCacheSet](./cache.go#L42)
+## <a name="CacheSet">func</a> [CacheSet](./cache.go#L42)
 ``` go
-func UserCacheSet(ctx context.Context, id int64)
+func CacheSet(ctx context.Context, id int64)
 ```
 
 ## <a name="User">type</a> [User](./model.go#L13-L21)
 ``` go
 type User struct {
-    Id       int64  `json:"id" db:"id" valid:"int~用户id类型为int"`
+    ID       int64  `json:"id" db:"id" valid:"int~用户id类型为int"`
     UserName string `json:"user_name" db:"user_name" valid:"required~用户名称必须存在"`
     Password string `json:"password" db:"password" valid:"required~密码必须存在"`
     Iphone   string `json:"iphone" db:"iphone" valid:"required~手机号码必须存在"`
@@ -137,34 +137,34 @@ func (m *User) Update(ctx context.Context) error
 ```
 修改
 
-## <a name="UserServer">type</a> [UserServer](./user.go#L12)
+## <a name="Server">type</a> [Server](./user.go#L12)
 ``` go
-type UserServer struct{}
+type Server struct{}
 ```
 
-### <a name="UserServer.UserAdd">func</a> (\*UserServer) [UserAdd](./user.go#L14)
+### <a name="Server.UserAdd">func</a> (\*Server) [UserAdd](./user.go#L14)
 ``` go
-func (s *UserServer) UserAdd(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error)
+func (s *Server) UserAdd(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error)
 ```
 
-### <a name="UserServer.UserDelete">func</a> (\*UserServer) [UserDelete](./user.go#L60)
+### <a name="Server.UserDelete">func</a> (\*Server) [UserDelete](./user.go#L60)
 ``` go
-func (s *UserServer) UserDelete(ctx context.Context, in *pb.UserId) (out *pb.UserId, outerr error)
+func (s *Server) UserDelete(ctx context.Context, in *pb.UserID) (out *pb.UserID, outerr error)
 ```
 
-### <a name="UserServer.UserQueryAll">func</a> (\*UserServer) [UserQueryAll](./user.go#L106)
+### <a name="Server.UserQueryAll">func</a> (\*Server) [UserQueryAll](./user.go#L106)
 ``` go
-func (s *UserServer) UserQueryAll(ctx context.Context, in *pb.UserAllOption) (*pb.UserAll, error)
+func (s *Server) UserQueryAll(ctx context.Context, in *pb.UserAllOption) (*pb.UserAll, error)
 ```
 
-### <a name="UserServer.UserQueryOne">func</a> (\*UserServer) [UserQueryOne](./user.go#L83)
+### <a name="Server.UserQueryOne">func</a> (\*Server) [UserQueryOne](./user.go#L83)
 ``` go
-func (s *UserServer) UserQueryOne(ctx context.Context, in *pb.UserId) (out *pb.UserBase, outerr error)
+func (s *Server) UserQueryOne(ctx context.Context, in *pb.UserID) (out *pb.UserBase, outerr error)
 ```
 
-### <a name="UserServer.UserUpdate">func</a> (\*UserServer) [UserUpdate](./user.go#L37)
+### <a name="Server.UserUpdate">func</a> (\*Server) [UserUpdate](./user.go#L37)
 ``` go
-func (s *UserServer) UserUpdate(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error)
+func (s *Server) UserUpdate(ctx context.Context, in *pb.UserBase) (out *pb.UserBase, outerr error)
 ```
 
 - - -

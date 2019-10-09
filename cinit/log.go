@@ -6,9 +6,7 @@ import (
 	"github.com/xiaomeng79/go-log/plugins/zaplog"
 )
 
-//初始化日志,可以再这里初始化不同日志引擎的日志 、、 zap logrous
-//初始化zap
-//设置日志引擎为刚初始化的
+// 初始化日志,可以再这里初始化不同日志引擎的日志 、、 zap logrous// 初始化zap// 设置日志引擎为刚初始化的
 func logInit() {
 	log.SetLogger(zaplog.New(
 		conf.WithProjectName(Config.Service.Name),

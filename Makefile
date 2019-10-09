@@ -35,7 +35,7 @@ vendor :
 	@echo "结束vendor"
 
 .PHONY : test
-test : vendor check
+test : vendor
 	@echo "代码测试[覆盖率]"
 	@go test -mod=vendor -race -cover  -coverprofile=coverage.txt -covermode=atomic ./...
 
@@ -114,6 +114,11 @@ k8sconfig :
 
 	@echo "配置k8s"
 	@chmod +x ./scripts/k8sconf.sh && ./scripts/k8sconf.sh
+# 代码风格检查
+.PHONY : lint
+lint :
+	@golangci-lint run  -v  ./...
+
 
 #pprof性能分析
 .PHONY : pprofon

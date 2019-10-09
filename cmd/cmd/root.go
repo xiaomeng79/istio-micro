@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
@@ -11,15 +12,16 @@ var rootCmd = &cobra.Command{
 	Short: "this is a demo istio micro",
 	Long:  `this is a demo istio micro ,has many`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
+		//  Do Stuff Here
 	},
 }
 
-func init() {
+func cmdInit() {
 	rootCmd.AddCommand(versionCmd)
 }
 
 func Execute() {
+	cmdInit()
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)

@@ -1,8 +1,9 @@
 package sqlupdate
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var testData = []struct {
@@ -17,13 +18,13 @@ var testData = []struct {
 	{"2.3.4", "2.3.4.20180809", true},
 }
 
-func TestSqlUpdate_Decode(t *testing.T) {
-	s := new(SqlUpdate)
+func TestSQLUpdate_Decode(t *testing.T) {
+	s := new(SQLUpdate)
 	err := s.decode("./testdata/record.json")
 	assert.NoError(t, err)
 	assert.Equal(t, "test", s.Project)
 	assert.Equal(t, "0.0.1", s.Update[0].Version)
-	// 比较版本号
+	//  比较版本号
 	res1 := s.compareResult("0.0.0", "1.1.1")
 	assert.Equal(t, 4, len(res1))
 	res2 := s.compareResult("0.1.0", "1.1.1")
@@ -37,8 +38,8 @@ func TestCompare(t *testing.T) {
 	}
 }
 
-func TestSqlUpdate_GetSqls(t *testing.T) {
-	s := new(SqlUpdate)
+func TestSQLUpdate_GetSqls(t *testing.T) {
+	s := new(SQLUpdate)
 	str, err := s.GetSqls("./testdata/record.json", "0.0.0", "3.0.2")
 	assert.NoError(t, err)
 	assert.Contains(t, str, "COMMENT ON COLUMN public.account.balance IS")

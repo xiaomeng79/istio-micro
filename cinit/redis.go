@@ -8,7 +8,6 @@ import (
 var RedisCli *redis.Client
 
 func redisInit() {
-
 	RedisCli = redis.NewClient(&redis.Options{
 		Addr:     Config.Redis.Addr,
 		Password: Config.Redis.Password,

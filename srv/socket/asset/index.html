@@ -22,20 +22,20 @@
     <script src="./jquery-1.11.1.js"></script>
     <script>
       var socket = io();
-      // $('form').submit(function(){
-      //   socket.emit('chat message with ack', $('#m').val(), function(data){
-      //     $('#messages').append($('<li>').text('ACK CALLBACK: ' + data));
-      //   });
-      //   socket.emit('chat message', $('#m').val());
-      //   $('#m').val('');
-      //   return false;
-      // });
-      // socket.on('cn1111', function(msg){
-      //   $('#messages').append($('<li>').text(msg));
-      // });
+     //  $('form').submit(function(){
+     //    socket.emit('chat message with ack', $('#m').val(), function(data){
+     //      $('#messages').append($('<li>').text('ACK CALLBACK: ' + data));
+     //    });
+     //    socket.emit('chat message', $('#m').val());
+     //    $('#m').val('');
+     //    return false;
+     //  });
+     //  socket.on('cn1111', function(msg){
+     //    $('#messages').append($('<li>').text(msg));
+     //  });
 
-    // var socket =
-    // io.connect('http://127.0.0.1:5000/socket.io/',{transports:["websocket"]});//match 为主
+   //  var socket =
+   //  io.connect('http://127.0.0.1:5000/socket.io/',{transports:["websocket"]});//match 为主
       socket.emit('init', "hello world");
       $('form').submit(function(){
         socket.emit('ack', $('#m').val(), function(data){
@@ -49,23 +49,23 @@
       });
       socket.on('broadcast', function(msg){
           $('#messages').append($('<li>').text(msg));
-          // socket.off('cn010001')cn0200011
+         //  socket.off('cn010001')cn0200011
       });
       socket.on('recive', function(msg){
           $('#messages').append($('<li>').text(msg));
       });
 
-      // {"k":"cn010001"}
-    // //加入房间
-    // socket.emit('match', {k:'cn010000'},function(data){
-    //     $('#messages').append($('<li>').text(data));
-    // //关闭监听事件
-    // socket.off('cn010001');
-    // //开启监听事件
-    // socket.on('cn010001', function(data) {
-    //     $('#messages').append($('<li>').text(data));
-    // });});
-    //断开连接事件
+     //  {"k":"cn010001"}
+   // // 加入房间
+   //  socket.emit('match', {k:'cn010000'},function(data){
+   //      $('#messages').append($('<li>').text(data));
+   // // 关闭监听事件
+   //  socket.off('cn010001');
+   // // 开启监听事件
+   //  socket.on('cn010001', function(data) {
+   //      $('#messages').append($('<li>').text(data));
+   //  });});
+   // 断开连接事件
     socket.on('disconnect',function() {
         $('#messages').append($('<li>').text('The client has disconnected!'));
     });

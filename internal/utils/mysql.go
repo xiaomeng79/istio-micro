@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-//影响结果判断
+// 影响结果判断
 func R(result sql.Result, err error) error {
 	if err != nil {
 		return err
@@ -20,7 +20,7 @@ func R(result sql.Result, err error) error {
 	return nil
 }
 
-//ID
+// ID
 func ID(result sql.Result, err error) (int64, error) {
 	if err != nil {
 		return 0, err

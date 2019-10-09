@@ -2,18 +2,20 @@ package utils
 
 import (
 	"errors"
-	"github.com/mitchellh/mapstructure"
-	"github.com/xiaomeng79/go-utils/math"
-	"github.com/xiaomeng79/istio-micro/cinit"
 	"reflect"
 	"strconv"
+
+	"github.com/xiaomeng79/istio-micro/cinit"
+
+	"github.com/mitchellh/mapstructure"
+	"github.com/xiaomeng79/go-utils/math"
 )
 
-func S2Id(id_s string) (int64, error) {
-	if len(id_s) <= 0 {
+func S2ID(idS string) (int64, error) {
+	if idS == "" {
 		return 0, errors.New("id不能为空")
 	}
-	id, err := strconv.ParseInt(id_s, 10, 64)
+	id, err := strconv.ParseInt(idS, 10, 64)
 	if err != nil {
 		return 0, err
 	}
@@ -23,33 +25,33 @@ func S2Id(id_s string) (int64, error) {
 	return id, nil
 }
 
-func S2N(id_s string) (int64, error) {
-	if len(id_s) <= 0 {
+func S2N(idS string) (int64, error) {
+	if idS == "" {
 		return 0, nil
 	}
-	num, err := strconv.ParseInt(id_s, 10, 64)
+	num, err := strconv.ParseInt(idS, 10, 64)
 	if err != nil {
 		return 0, err
 	}
 	return num, nil
 }
 
-func S2F64(id_s string) (float64, error) {
-	if len(id_s) <= 0 {
+func S2F64(idS string) (float64, error) {
+	if idS == "" {
 		return 0, nil
 	}
-	num, err := strconv.ParseFloat(id_s, 64)
+	num, err := strconv.ParseFloat(idS, 64)
 	if err != nil {
 		return 0, err
 	}
 	return num, nil
 }
 
-func S2I32(id_s string) (int32, error) {
-	if len(id_s) <= 0 {
+func S2I32(idS string) (int32, error) {
+	if idS == "" {
 		return 0, nil
 	}
-	num, err := strconv.ParseInt(id_s, 10, 64)
+	num, err := strconv.ParseInt(idS, 10, 64)
 	if err != nil {
 		return 0, err
 	}
@@ -67,8 +69,8 @@ func Struct2Map(obj interface{}) map[string]interface{} {
 	return data
 }
 
-func OddsCompute(o1 float64, o2 float64) bool {
-	return math.Round(o1, cinit.FLOAT_COMPUTE_BIT) == math.Round(o2, cinit.FLOAT_COMPUTE_BIT)
+func OddsCompute(o1, o2 float64) bool {
+	return math.Round(o1, cinit.FloatComputeBit) == math.Round(o2, cinit.FloatComputeBit)
 }
 
 func Map2Struct(input, result interface{}) {

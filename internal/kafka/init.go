@@ -1,10 +1,11 @@
 package kafka
 
 import (
+	"time"
+
 	"github.com/Shopify/sarama"
 	cluster "github.com/bsm/sarama-cluster"
 	"github.com/xiaomeng79/go-log"
-	"time"
 )
 
 type Kafka struct {
@@ -29,7 +30,7 @@ func NewKafka(addrs []string) *Kafka {
 	cconfig := cluster.NewConfig()
 	cconfig.Consumer.Return.Errors = true
 	cconfig.Group.Return.Notifications = true
-	//cconfig.Group.Mode = cluster.ConsumerModePartitions
+	// cconfig.Group.Mode = cluster.ConsumerModePartitions
 	sc, err := cluster.NewClient(addrs, cconfig)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -38,18 +39,14 @@ func NewKafka(addrs []string) *Kafka {
 	sp, err := sarama.NewSyncProducerFromClient(c)
 	if err != nil {
 		log.Fatalf("sarama.NewSyncProducer err, message=%s \n", err)
-
 	}
-
 	ap, err := sarama.NewAsyncProducerFromClient(c)
 	if err != nil {
 		log.Fatalf("sarama.NewAsyncProducer err, message=%s \n", err)
-
 	}
 	ss, err := sarama.NewConsumerFromClient(c)
 	if err != nil {
 		log.Fatalf("sarama.NewConsumer err, message=%s \n", err)
-
 	}
 	return &Kafka{addrs: addrs, c: c, sc: sc, sp: sp, ap: ap, ss: ss}
 }

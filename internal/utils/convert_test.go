@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -19,7 +20,6 @@ var (
 )
 
 func TestOddsCompute(t *testing.T) {
-
 	for _, v := range oddsData {
 		assert.Equal(t, v.b, OddsCompute(v.o1, v.o2))
 	}

@@ -2,19 +2,21 @@ package user
 
 import (
 	"context"
-	"github.com/xiaomeng79/go-log"
-	"github.com/xiaomeng79/istio-micro/cinit"
 	"math/rand"
 	"strconv"
 	"time"
+
+	"github.com/xiaomeng79/istio-micro/cinit"
+
+	"github.com/xiaomeng79/go-log"
 )
 
 const (
-	KeyMaxExpire     = 500 //秒
+	KeyMaxExpire     = 500 // 秒
 	AgainGetStopTime = 100 * time.Millisecond
 )
 
-func getIdKey(prefix string, ids ...int64) string {
+func getIDKey(prefix string, ids ...int64) string {
 	s := prefix
 	for _, id := range ids {
 		s += "_" + strconv.FormatInt(id, 10)
@@ -31,5 +33,4 @@ func setKeyExpire(ctx context.Context, ks ...string) {
 			log.Error(err.Error(), ctx)
 		}
 	}
-	return
 }

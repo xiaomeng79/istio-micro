@@ -198,7 +198,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/userUserId"
+              "$ref": "#/definitions/userUserID"
             }
           },
           "403": {
@@ -296,9 +296,9 @@
           "title": "性别"
         }
       },
-      "title": "用户基本信息"
+      "title": "注入标签: https://github.com/favadi/protoc-go-inject-tag\n 用户基本信息"
     },
-    "userUserId": {
+    "userUserID": {
       "type": "object",
       "properties": {
         "id": {
@@ -306,8 +306,7 @@
           "format": "int64",
           "title": "用户id"
         }
-      },
-      "title": "用户Id"
+      }
     },
     "userUserSex": {
       "type": "string",

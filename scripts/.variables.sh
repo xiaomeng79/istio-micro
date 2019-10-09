@@ -20,7 +20,7 @@ GOPATH=${GOPATH:-${HOME}"/com_go"}
 #其他软件的安装目录
 soft_dir=${soft_dir:-${HOME}}
 #go安装的版本
-go_version=${go_version:-"1.12.9"}
+go_version=${go_version:-"1.13.1"}
 #protoc的版本
 protoc_version=${protoc_version:-"3.6.1"}
 #protoc引用的路径
