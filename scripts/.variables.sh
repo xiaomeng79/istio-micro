@@ -12,7 +12,7 @@ Version=${Version:-"unknow"}
 TARGET=${TARGET:-'main'}
 
 #执行环境
-GOPROXY=${GOPROXY:-"https://goproxy.io"}
+GOPROXY=${GOPROXY:-"https://goproxy.cn"}
 #go mod是否开启
 GO111MODULE=${GO111MODULE:-"auto"}
 #GOPATH的路径

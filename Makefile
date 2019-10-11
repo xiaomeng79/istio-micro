@@ -20,7 +20,7 @@ ver :
 install :
 
 	@echo "安装环境开始"
-	@chmod +x ./scripts/install.sh && ./scripts/install.sh
+	@chmod +x ./scripts/install.sh && ./scripts/install.sh ${method}
 	@echo "安装环境结束"
 
 .PHONY : fmt
@@ -143,8 +143,6 @@ clean :
 	@git clean -dxf -e .idea
 
 #发行版本
-release :
-	@chmod +x ./scripts/release.sh && ./scripts/release.sh
 
 #查看下一个版本号
 next-version :
@@ -168,5 +166,6 @@ docker-remove:
 	docker rmi --force `docker images -q` || true
 
 # 使用goreleaser编译项目
+.PHONY : release
 release:
 	goreleaser --snapshot --skip-publish --rm-dist

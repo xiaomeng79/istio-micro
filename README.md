@@ -69,11 +69,12 @@ git clone https://github.com/xiaomeng79/istio-micro.git
 
 3. 安装运行环境
 ```bash
+# 获取全部tag
 cd istio-micro && git pull --all
-make ver
-source ~/.profile 
-make install sample
+# 安装基本工具
+make install method=sample 
 ```
+>| 安装方法(method): sample(基本工具) all(全部,包括go) 默认:(go和一些基本工具)
 
 4. 编译代码
 
@@ -95,7 +96,7 @@ Version=${Version:-"unknow"}
 TARGET=${TARGET:-'main'}
 
 #执行环境
-GOPROXY=${GOPROXY:-"https://goproxy.io"}
+GOPROXY=${GOPROXY:-"https://goproxy.cn"}
 #go mod是否开启
 GO111MODULE=${GO111MODULE:-"auto"}
 #GOPATH的路径
@@ -103,7 +104,7 @@ GOPATH=${GOPATH:-${HOME}"/com_go"}
 #其他软件的安装目录
 soft_dir=${soft_dir:-${HOME}}
 #go安装的版本
-go_version=${go_version:-"1.12.9"}
+go_version=${go_version:-"1.13.1"}
 #protoc的版本
 protoc_version=${protoc_version:-"3.6.1"}
 #protoc引用的路径

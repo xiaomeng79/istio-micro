@@ -72,6 +72,8 @@ go_plug(){
 
 # 安装一些依赖工具到GOPATH
 gopath_install(){
+    GOPROXY=${GOPROXY}
+    GO111MODULE=off
     #代码风格审查
     go get  github.com/golangci/golangci-lint/cmd/golangci-lint
     go get  github.com/golang/protobuf/protoc-gen-go

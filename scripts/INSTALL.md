@@ -1,7 +1,7 @@
 ## 手动安装
 
 1. 安装主要程序
-- [go](https://studygolang.com/dl) >= 1.11 go
+- [go](https://studygolang.com/dl) >= 1.13.1 go
 - [cloc](https://github.com/AlDanial/cloc) >=1.76  代码统计
 - [protoc](https://github.com/protocolbuffers/protobuf) >= 3.6.1 proto buffer
 
@@ -29,6 +29,7 @@ source ~/.profile
 
 3. 安装go的依赖包
 ```bash
+go get  github.com/golangci/golangci-lint/cmd/golangci-lint
 go get  github.com/golang/protobuf/protoc-gen-go
 go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
