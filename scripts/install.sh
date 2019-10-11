@@ -19,7 +19,10 @@ go_install(){
 		mkdir -p ${soft_dir} && cd ${soft_dir} && \
 		wget -c https://dl.google.com/go/go${go_version}.linux-amd64.tar.gz && \
 		tar -xzvf go${go_version}.linux-amd64.tar.gz && \
-		go version
+		go version && \
+		go env -w GOPROXY=${GOPROXY},direct && \
+		go env -w GOPATH=${GOPATH} && \
+		go env -w GO111MODULE=auto
 }
 
 #圈复杂分析
@@ -60,6 +63,7 @@ go_plug(){
 		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway && \
 		go get   github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger && \
 		go get  github.com/favadi/protoc-go-inject-tag && \
+		go get  github.com/golangci/golangci-lint/cmd/golangci-lint && \
 		echo "安装gocyclo圈复杂度计算工具" && \
 		go get  github.com/fzipp/gocyclo && \
 		echo "安装打包静态文件工具" && \
@@ -71,9 +75,8 @@ go_plug(){
 }
 
 # 安装一些依赖工具到GOPATH
-gopath_install(){
-    GOPROXY=${GOPROXY}
-    GO111MODULE=off
+tool_install(){
+    cd ${GOPATH}
     #代码风格审查
     go get  github.com/golangci/golangci-lint/cmd/golangci-lint
     go get  github.com/golang/protobuf/protoc-gen-go
@@ -85,20 +88,25 @@ gopath_install(){
 
 # 安装依赖
 case $1 in
-    sample) echo "简单安装"
+    tool) echo "依赖工具安装"
         protoc_install
-        gopath_install
+        tool_install
     ;;
-    all) echo "全部安装"
+    go) echo "安装go程序"
         go_install
+    ;;
+    other)
+    echo "安装其他工具"
         cloc_install
-        protoc_install
+    ;;
+    alltool)
+    echo "全部工具安装"
         go_plug
     ;;
     *)
-    echo "默认安装"
+    echo "安装go程序和依赖工具"
         go_install
         protoc_install
-        gopath_install
+        tool_install
     ;;
 esac

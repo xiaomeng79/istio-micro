@@ -50,11 +50,30 @@
     - unzip
     - tar
     - go >= 1.13
+    - [protobuf](https://github.com/protocolbuffers/protobuf/releases) >= 3.6.1 `设置protocbuf的include地址:protoc_include_path=你的protobuf安装地址/include`
     
 ```bash
 #ubuntu系统安装
 apt-get install git wget make unzip tar -y
+#centos系统安装
+yum install git wget make unzip tar -y
 ```
+- 依赖工具安装
+```bash
+    #代码风格审查
+    go get  github.com/golangci/golangci-lint/cmd/golangci-lint
+    go get  github.com/golang/protobuf/protoc-gen-go
+    go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+    go get  github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
+    go get  github.com/favadi/protoc-go-inject-tag
+    go get  github.com/rakyll/statik
+```
+>| 注意:国内安装失败,可启用代理: 
+```bash
+		go env -w GOPROXY=https://goproxy.cn,direct
+		go env -w GO111MODULE=auto
+```
+>| 注意:如果还安装不成功,使用自动安装 `make install method=alltool`
     
 - 可选部署安装(**任何一种都可以,也可直接部署二进制文件**)
     1. docker >= 1.13.1
@@ -71,10 +90,11 @@ git clone https://github.com/xiaomeng79/istio-micro.git
 ```bash
 # 获取全部tag
 cd istio-micro && git pull --all
-# 安装基本工具
-make install method=sample 
+# 环境变量生效
+make ver && source ~/.profile
 ```
->| 安装方法(method): sample(基本工具) all(全部,包括go) 默认:(go和一些基本工具)
+>| 如果需要自动安装:可执行 `make install method=以下选项` 安装方法(method): tool(依赖工具) alltool(全部工具,适用安装不成功) go(go程序) other(一些其他工具) 默认:(go和一些基本工具)
+>| [安装环境变量配置](./scripts/VARIABLES..md) 可以自定义
 
 4. 编译代码
 
@@ -86,33 +106,6 @@ sudo make allbuild
 
 ```bash
 sudo make compose 
-```
-
-**可在scripts下新建安装环境变量配置文件(myvariables.sh)**
-```bash
-#项目相关的
-ProjectName=${ProjectName:-"github.com/xiaomeng79/istio-micro"}
-Version=${Version:-"unknow"}
-TARGET=${TARGET:-'main'}
-
-#执行环境
-GOPROXY=${GOPROXY:-"https://goproxy.cn"}
-#go mod是否开启
-GO111MODULE=${GO111MODULE:-"auto"}
-#GOPATH的路径
-GOPATH=${GOPATH:-${HOME}"/com_go"}
-#其他软件的安装目录
-soft_dir=${soft_dir:-${HOME}}
-#go安装的版本
-go_version=${go_version:-"1.13.1"}
-#protoc的版本
-protoc_version=${protoc_version:-"3.6.1"}
-#protoc引用的路径
-protoc_include_path=${protoc_include_path:-"${soft_dir}/protoc-${protoc_version}-linux-x86_64/include"}
-#cloc版本
-cloc_version=${cloc_version:-"1.76"}
-#执行文件路径
-cmd_path=${cmd_path:-"${GOPATH}/bin"}
 ```
 
 #### 自动化安装不成功,可以选择手动安装

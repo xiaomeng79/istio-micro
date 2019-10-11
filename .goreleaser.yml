@@ -37,5 +37,5 @@ archives:
   - goos: windows
     format: zip
 checksum:
-  name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
+  name_template: "checksums.txt"
   algorithm: sha256
