@@ -50,7 +50,7 @@
     - unzip
     - tar
     - go >= 1.13
-    - [protobuf](https://github.com/protocolbuffers/protobuf/releases) >= 3.6.1 `设置protocbuf的include地址:protoc_include_path=你的protobuf安装地址/include`
+    - [protobuf](https://github.com/protocolbuffers/protobuf/releases) >= 3.6.1 `设置protocbuf的include地址: export protoc_include_path=你的protobuf安装地址/include`
     
 ```bash
 #ubuntu系统安装

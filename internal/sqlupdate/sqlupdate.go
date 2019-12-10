@@ -55,7 +55,37 @@ func (s *SQLUpdate) compareResult(lastVersion, currentVersion string) []UpdateRe
 
 //  比较获取需要更新的版本//  判断旧版本是否大于要比较版本,true:小于等于(需要更新) false:大于(不需要更新)
 func compare(ov, cv string) bool {
-	return ov < cv
+	return versionOrdinal(ov) < versionOrdinal(cv)
+}
+
+// 版本号顺序
+func versionOrdinal(version string) string {
+	// ISO/IEC 14651:2011
+	const maxByte = 1<<8 - 1
+	vo := make([]byte, 0, len(version)+8)
+	j := -1
+	for i := 0; i < len(version); i++ {
+		b := version[i]
+		if '0' > b || b > '9' {
+			vo = append(vo, b)
+			j = -1
+			continue
+		}
+		if j == -1 {
+			vo = append(vo, 0x00)
+			j = len(vo) - 1
+		}
+		if vo[j] == 1 && vo[j+1] == '0' {
+			vo[j+1] = b
+			continue
+		}
+		if vo[j]+1 > maxByte {
+			panic("VersionOrdinal: invalid version")
+		}
+		vo = append(vo, b)
+		vo[j]++
+	}
+	return string(vo)
 }
 
 //  返回需要执行的sql
