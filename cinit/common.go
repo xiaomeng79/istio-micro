@@ -39,7 +39,7 @@ var Config = struct {
 	Trace struct { //  链路跟踪
 		Address       string  `default:"http://jaeger:14268/api/traces?format=jaeger.thrift"` //  http://jaeger:14268/api/traces?format=jaeger.thrift
 		ZipkinURL     string  `default:""`                                                    //  http://zipkin:9411/api/v1/spans
-		SamplingRate  float64 `default:"0.1"`                                                 //  采样率 0.01-1范围
+		SamplingRate  float64 `default:"1"`                                                   //  采样率 0.01-1范围
 		LogTraceSpans bool    `default:"false"`                                               //  日志
 	}
 	//  log config

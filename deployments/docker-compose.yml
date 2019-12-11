@@ -163,7 +163,7 @@ services:
     - jaeger
     - influxdb
     environment:
-      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_TRACE_ADDRESS: http://jaeger:14268/api/traces?format=jaeger.thrift
       CONFIGOR_MYSQL_ADDR: mysqldb
       CONFIGOR_MYSQL_PORT: 3306
       CONFIGOR_MYSQL_DBNAME: user
@@ -186,7 +186,7 @@ services:
     - jaeger
     - influxdb
     environment:
-      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_TRACE_ADDRESS: http://jaeger:14268/api/traces?format=jaeger.thrift
       CONFIGOR_POSTGRES_ADDR: postgresdb
       CONFIGOR_POSTGRES_PORT: 5432
       CONFIGOR_POSTGRES_DBNAME: test
@@ -204,7 +204,9 @@ services:
     - kafka
     - jaeger
     environment:
-      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_TRACE_ADDRESS: http://jaeger:14268/api/traces?format=jaeger.thrift
+#      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+#      http://jaeger:14268/api/traces?format=jaeger.thrift
       CONFIGOR_KAFKA_ADDRS: kafka:9092
     ports:
     - "5002:5002"
@@ -217,7 +219,7 @@ services:
     - influxdb
     - grafana
     environment:
-      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_TRACE_ADDRESS: http://jaeger:14268/api/traces?format=jaeger.thrift
       CONFIGOR_SRVUSER_ADDRESS: srv_user:5001
     ports:
     - "8888:8888"
@@ -228,7 +230,7 @@ services:
     - jaeger
     - srv_user
     environment:
-      CONFIGOR_TRACE_ADDRESS: jaeger:6831
+      CONFIGOR_TRACE_ADDRESS: http://jaeger:14268/api/traces?format=jaeger.thrift
       CONFIGOR_SRVUSER_ADDRESS: srv_user:5001
     ports:
     - "8889:8889"
